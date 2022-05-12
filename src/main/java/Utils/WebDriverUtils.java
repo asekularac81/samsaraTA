@@ -100,7 +100,7 @@ public class WebDriverUtils extends LoggerUtils {
     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(Time.IMPLICIT_TIMEOUT));
 
     //da se dom struktura stranice ucitala-3 sec
-    driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
+    driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(Time.PAGE_LOAD_TIMEOUT));
 
     //ovo vazi ako koristis javascript executor za izvrsavanje asinhrone javascripte
     //koliko ce driver da ceka na izvrsavanje asinhrone javascripte
