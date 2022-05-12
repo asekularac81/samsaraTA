@@ -23,7 +23,6 @@ public class SuccessfulLoginLogout extends BaseTest {
     LoginPage loginPage = new LoginPage(driver).open();
   }
 
-
   @AfterMethod(alwaysRun = true)
   public void tearDownTest (ITestResult testResult) {
     log.debug("[END TEST]");

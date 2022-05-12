@@ -28,7 +28,6 @@ public class LoginPage extends CommonLoggedOutPage {
     return open(true);
   }
 
-
   public void verifyLoginPage() {
     log.debug("verifyLoginPage()");
     waitForUrlChange(LOGIN_PAGE_URL, Time.TIME_SHORT);

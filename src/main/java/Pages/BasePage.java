@@ -1,12 +1,9 @@
 package Pages;
 
 import java.time.Duration;
-import java.util.function.Function;
-
 import Utils.LoggerUtils;
 import Utils.PropertiesUtils;
 import Utils.WebDriverUtils;
-import org.openqa.selenium.JavascriptException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
