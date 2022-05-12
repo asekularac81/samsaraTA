@@ -3,7 +3,6 @@ package Pages;
 import Data.PageUrlPaths;
 import Data.Time;
 import org.openqa.selenium.WebDriver;
-//test
 
 public class LoginPage extends CommonLoggedOutPage {
 
