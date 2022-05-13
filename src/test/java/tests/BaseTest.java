@@ -20,11 +20,13 @@ public class BaseTest extends LoggerUtils {
   }
 
   protected void tearDown(WebDriver driver, ITestResult testResult) {
+    //ovde ide brisanje usera iz baze, ubijanje drivera, quit drivera
+    //koristimo catch da se nebi desilo da test padne u tearDownu a da se prikazuje kao da je test pao
     String sTestName = testResult.getTestClass().getName();
     log.debug("tearDown[" + sTestName + ")");
     try {
       if (testResult.getStatus() == ITestResult.FAILURE) {
-        //get screenshot
+        //take screenshot
         log.warn("Test " + sTestName + " has failed");
       }
       Assert.fail("padanje");

@@ -28,6 +28,7 @@ public class PropertiesUtils extends LoggerUtils {
   }
 
   private static String getProperty(String sProperty) {
+    log.trace("getProperty(" + sProperty + ")");
     String sResult = properties.getProperty(sProperty);
     Assert.assertNotNull(sResult, "Cannot find property " + sProperty + "' in " + sPropertiesPath + "file!");
     return sResult;

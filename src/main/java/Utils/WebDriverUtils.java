@@ -36,7 +36,7 @@ public class WebDriverUtils extends LoggerUtils {
       sRemote = "Remote";
     }
 
-    log.debug("setUpDriver("+ sBrowser + ", Is Headless: " + bHeadless);
+    log.debug("setUpDriver (Browser: "+ sBrowser + ", Headless: " + bHeadless+ ")" );
 
     try {
       switch (sBrowser) {
@@ -44,6 +44,9 @@ public class WebDriverUtils extends LoggerUtils {
           ChromeOptions options = new ChromeOptions();
           options.setHeadless(bHeadless);
           options.addArguments("--window-size=1600x900");//defaultna dimenzija prozora za headless dok pravi browser se na kraju jos i maximizuje
+          //dodatna konfiguracija chrome drivera da iskljucis crome driver logove https://ivanderevianko.com/2020/04/disable-logging-in-selenium-chromedriver
+          options.addArguments("--log-level=3"); //loguje samo FATAL greske za chrome driver
+          options.addArguments("--disable-logging");
           if (bRemote) {
             RemoteWebDriver remoteDriver = new RemoteWebDriver(new URL(sHubUrl), options);
             remoteDriver.setFileDetector(new LocalFileDetector());
