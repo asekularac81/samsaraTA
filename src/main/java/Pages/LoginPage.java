@@ -162,7 +162,7 @@ public class LoginPage extends CommonLoggedOutPage {
   // high level library primer, INFO logovanje za njih
   // nadalje koristimo ovu metodu uvek kad nam je login samo prolazna faza i nemamo medjuverifikaciju na njoj
   // ako hocemo da verifikujemo korak po korak onda tako pisemo u testu
-  // Kompleksne stranice NE treba da setaju po stranicama, vec da sve rade na istoj stranici ( uloguje se i ode na welocome, naprave heroja)
+  // Kompleksne metode NE treba da setaju po stranicama, vec da sve rade na istoj stranici ( uloguje se i ode na welocome, naprave heroja)
   // Ako ti bas treba da se kreces kroz stranice - onda ga stavi u BaseTest klasi
 
   /**
