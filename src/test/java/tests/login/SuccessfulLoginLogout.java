@@ -2,6 +2,7 @@ package tests.login;
 
 import Data.Time;
 import Pages.LoginPage;
+import Pages.WelcomePage;
 import Utils.DateTimeUtils;
 import Utils.PropertiesUtils;
 import org.openqa.selenium.WebDriver;
@@ -22,14 +23,13 @@ public class SuccessfulLoginLogout extends BaseTest {
   private String sUserName;
   private String sUserPassword;
 
-
   //U Before Method generisemo podatke o userima jer to nema veze sa koracima testa, da ako padne test padne zbog ficera koji testira a ne pripreme
   @BeforeMethod
   public void setUpTest () {
     log.info("[SETUP TEST] " + sTestName );
     driver = setupDriver();
     sUserName = PropertiesUtils.getAdminUsername();
-    sUserPassword = PropertiesUtils.getAdminUsername();
+    sUserPassword = PropertiesUtils.getAdminPassword();
   }
 
   @Test
@@ -39,7 +39,9 @@ public class SuccessfulLoginLogout extends BaseTest {
     LoginPage loginPage = new LoginPage(driver).open();
     loginPage.typeUsername(sUserName);
     loginPage.typePassword(sUserPassword);
-    loginPage.clickLoginButton();
+    WelcomePage welcomePage = loginPage.clickLoginButton();
+
+
   }
 
   @AfterMethod(alwaysRun = true)

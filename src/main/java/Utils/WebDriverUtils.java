@@ -16,6 +16,7 @@ import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 
+//utils klase extenduju LoggerUtils da bi logovanje bilo centralizovano. Takodje i BasePage, BaseTest
 public class WebDriverUtils extends LoggerUtils {
 
   public static WebDriver setUpDriver() {
@@ -48,11 +49,13 @@ public class WebDriverUtils extends LoggerUtils {
           options.addArguments("--log-level=3"); //loguje samo FATAL greske za chrome driver
           options.addArguments("--disable-logging");
           if (bRemote) {
+            //Grid
             RemoteWebDriver remoteDriver = new RemoteWebDriver(new URL(sHubUrl), options);
             remoteDriver.setFileDetector(new LocalFileDetector());
             driver = remoteDriver;
           }
           else {
+            //lokalni driver
             System.setProperty("webdriver.chrome.driver", sPathDriverChrome);
             driver = new ChromeDriver(options);
           }

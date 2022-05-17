@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.ITestResult;
 
+//BasePage extenduje LoggerUtils da bi logovanje bilo centralizovano.
 public class BaseTest extends LoggerUtils {
 
   protected WebDriver setupDriver() {

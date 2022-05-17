@@ -6,6 +6,7 @@ import java.util.Properties; //ispod haube ova klasa je mapa - kljuc i vrednost
 
 import org.testng.Assert;
 
+//utils klase extenduju LoggerUtils da bi logovanje bilo centralizovano. Takodje i BasePage, BaseTest
 public class PropertiesUtils extends LoggerUtils {
 
   private static final String sPropertiesPath = "common.properties";

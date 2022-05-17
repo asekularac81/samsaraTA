@@ -1,5 +1,6 @@
 package Utils;
 
+//utils klase extenduju LoggerUtils da bi logovanje bilo centralizovano. Isto vazi i za BasePage, BaseTest
 public class DateTimeUtils extends LoggerUtils{
 
   // Da bi koristili Thread.sleep u testovima (samo kad se mora)
