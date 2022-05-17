@@ -18,7 +18,7 @@ public class LoginPage extends CommonLoggedOutPage {
 
   // PRIMER SA LOKATORIMA (ako ne koristimo PageFactory)
   // Ovo su lokatori a webelemente cemo dohvatiti u samoj metodi - neposredno pred koristenje
-  //Naming konvecnija:
+  // Naming konvecnija:
   // Sta radi element/ Tip elementa / Locator (ako je WebElement onda nista)
   private final By usernameTextFieldLocator = By.id("username");
   private final By passwordTextFieldLocator = By.id("password");
@@ -43,10 +43,10 @@ public class LoginPage extends CommonLoggedOutPage {
   // private final By usernameTextFieldLocator = By.cssSelector("#username"); - skracenica za id je #
   // private final By usernameTextFieldLocator = By.cssSelector("div.username");
 
-  //URL:
+  // URL:
   private final String LOGIN_PAGE_URL = getPageUrl(PageUrlPaths.LOGIN_PAGE);
 
-  //METODE:
+  // METODE:
   public LoginPage(WebDriver driver) {
     super(driver);
     log.trace("new LoginPage()");
@@ -74,20 +74,22 @@ public class LoginPage extends CommonLoggedOutPage {
     return this;
   }
 
-  //Dobra praksa je JavaDoc na svim metodama koje se zovu iz testa, ne treba na private
+  // Dobra praksa je JavaDoc na svim metodama koje se zovu iz testa, ne treba na private
   /**
    * Type Username in Username Text Field
    * @param sUsername {String} - Username
+   * @return {LoginPage}
    */
-  public void typeUsername(String sUsername) {
+  public LoginPage typeUsername(String sUsername) {
     log.debug("typeUsername(" + sUsername + ")");
     //WebElement usernameTextField =  driver.findElement(By.id("username")); // Ovo moze, ali je zavisno od Selenium osnovnih metoda i bolje ubaciti u BasePage-getWebElement
     WebElement usernameTextField = getWebElement(usernameTextFieldLocator);
     //usernameTextField.sendKeys(sUsername); //necemo da se oslanjamo na sendKeys metody u LoginPage klasi, mozda ce da se promeni vec je napravimo u BasePage
     clearAndTypeTextToWebElement(usernameTextField, sUsername);
+    return this;
   }
 
-  //napravicemo typeUsernameSlowly-metoda koja kucka slovo po slovo u petlji i preko JS proverava da se text promenio
+  // napravicemo typeUsernameSlowly-metoda koja kucka slovo po slovo u petlji i preko JS proverava da se text promenio
 
 
   public String getUsername() {
@@ -102,7 +104,8 @@ public class LoginPage extends CommonLoggedOutPage {
     clearAndTypeTextToWebElement(passwordTextField, sPassword);
   }
 
-  //Kozic predlaze ovako - omogucava method chaining - utackavanje LoginPage.typeUserneme().typePassword().clickLoginButton()
+  // Kozic predlaze - Ako metoda radi nesto i ostaje na istoj stranici, umesto da je stavimo da bude void, mozemo da vratimo instancu te iste stranice
+  // To omogucava method chaining - utackavanje LoginPage.typeUserneme().typePassword().clickLoginButton()
   public LoginPage typePassword(String sPassword) {
     log.debug("typePassword(" + sPassword + ")");
     WebElement passwordTextField = getWebElement(passwordTextFieldLocator);
@@ -116,6 +119,14 @@ public class LoginPage extends CommonLoggedOutPage {
     return getValueFromWebElement(passwordTextField);
   }
 
+
+  // Zajednicki deo za ove 2 metode dole cemo da stavimo u PRIVATE metodu, da ne dupliramo kod
+  private void clickLoginButtonNoVerify() {
+    log.debug("clickLoginButtonNoVerify()");
+    WebElement loginButton = getWebElement(loginButtonLocator);
+    clickOnWebElement(loginButton);
+  }
+
   // hocemo da nam metoda vrati instancu WelcomePage jer nas tamo vodi klik
   // Prednost - pravimo da driver klizi kroz stranice
   // Mana - treba nam posebna metoda ako znamo da nece da se otvori WelcomePage - npr kad ocekujemo invalid credentials
@@ -126,13 +137,14 @@ public class LoginPage extends CommonLoggedOutPage {
     return welcomePage.verifyWelcomePage();
   }
 
-  //public WelcomePage clickLoginButtonNoProgress() -implement
 
-  // Zajedncki deo za ove 2 metode gore cemo da stavimo u private metodu
-  private void clickLoginButtonNoVerify() {
-    log.debug("clickLoginButtonNoVerify()");
+  // metoda kad ne ocekujemo da se otvori Welcome page - npr invalid credentials
+  public LoginPage clickLoginButtonNoProgress() {
+    log.debug("clickLoginButtonNoProgress()");
     WebElement loginButton = getWebElement(loginButtonLocator);
     clickOnWebElement(loginButton);
+    LoginPage loginPage = new LoginPage(driver);
+    return loginPage.verifyLoginPage();//ovde proverimo da se login page refreshovala i DOM struktura ponovo ucitala
   }
 
   public String getLoginButtonTitle() {
@@ -141,18 +153,28 @@ public class LoginPage extends CommonLoggedOutPage {
     return getValueFromWebElement(loginButton);
   }
 
-  // High Level Library primer kompleksne metode:
-  // Koristimo je svuda gde je login prolazna faza i na njoj nemamo medjuverifikaciju
-  // a imacemo poseban test za Login page gde korak po korak unosimo i verifikujemo...
-  // Uvek treba da se oslanjaju na vec implementirane metode za pojedinacne elemente a ne da  u kompleksoj metodi getujemo element po element
+  // Stranicu u POM mozemo logicki da podelimo na:
+  // low level library - private dohvatanje lokatora/WebElemenata
+  // middle level library - osnovne metode za rad sa elementima (typeUsername, getUsername ,...)
+  // high level library - kompleksne metode koje objedinjuju vise akcija koje cine logicku celinu.
+  // HL- uvek se oslanjaju na vec implementirane metode za pojedinacne elemente  a ne da  u kompleksoj metodi getujemo element po element
+
+  // high level library primer, INFO logovanje za njih
+  // nadalje koristimo ovu metodu uvek kad nam je login samo prolazna faza i nemamo medjuverifikaciju na njoj
+  // ako hocemo da verifikujemo korak po korak onda tako pisemo u testu
   // Kompleksne stranice NE treba da setaju po stranicama, vec da sve rade na istoj stranici ( uloguje se i ode na welocome, naprave heroja)
   // Ako ti bas treba da se kreces kroz stranice - onda ga stavi u BaseTest klasi
 
-
-/*  public WelcomePage login (String username, String password) {
-    log.info("login(" + username +"," + password +")");
-    this.typeUsername(username)
-        .typpepassword
+  /**
+   * Login to Samsara
+   * @param sUsername {String} - Username
+   * @param sPassword {String} - Password
+   * @return {WelcomePage}
+   */
+  public WelcomePage login(String sUsername, String sPassword) {
+    log.info("login(" + sUsername +"," + sPassword +")");
+    return this.typeUsername(sUsername)
+        .typePassword(sPassword)
         .clickLoginButton();
-  }*/
+  }
 }
