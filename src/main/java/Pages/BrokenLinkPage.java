@@ -4,30 +4,30 @@ import Data.PageUrlPaths;
 import Data.Time;
 import org.openqa.selenium.WebDriver;
 
-public class BrokenPage extends CommonLoggedInPage {
+public class BrokenLinkPage extends CommonLoggedInPage {
 
   private final String BROKEN_LINK_PAGE=getPageUrl(PageUrlPaths.BROKEN_LINK_PAGE);
 
-  public BrokenPage (WebDriver driver) {
+  public BrokenLinkPage(WebDriver driver) {
     super(driver);
-    log.trace("new BrokenPage()");
+    log.trace("new BrokenLinkPage()");
   }
 
-  public BrokenPage open(boolean bVerify) {
+  public BrokenLinkPage open(boolean bVerify) {
     openUrl(BROKEN_LINK_PAGE);
-    log.debug("Open BrokenPage(" + BROKEN_LINK_PAGE + ")");
+    log.debug("Open BrokenLinkPage(" + BROKEN_LINK_PAGE + ")");
     if (bVerify) {
-      verifyBrokenPage();
+      verifyBrokenLinkPage();
     }
     return this;
   }
 
-  public BrokenPage open() {
+  public BrokenLinkPage open() {
     return open(true);
   }
 
-  public BrokenPage verifyBrokenPage() {
-    log.debug("verifyBrokenPage()");
+  public BrokenLinkPage verifyBrokenLinkPage() {
+    log.debug("verifyBrokenLinkPage()");
     waitForUrlChange(BROKEN_LINK_PAGE, Time.TIME_SHORT);
     waitUntilPageIsReady(Time.TIME_SHORT);
     return this;

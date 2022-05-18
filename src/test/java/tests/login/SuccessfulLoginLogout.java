@@ -3,7 +3,7 @@ package tests.login;
 import Data.Time;
 import Pages.APIPage;
 import Pages.AdminPage;
-import Pages.BrokenPage;
+import Pages.BrokenLinkPage;
 import Pages.GalleryPage;
 import Pages.HeroesPage;
 import Pages.LoginPage;
@@ -58,7 +58,7 @@ public class SuccessfulLoginLogout extends BaseTest {
     APIPage apiPage = galleryPage.clickAPITab();
     PracticePage practicePage = apiPage.clickPracticeTab();
     AdminPage adminPage = practicePage.clickAdminTab();
-    BrokenPage brokenPage = adminPage.clickBrokenTab();
+    BrokenLinkPage brokenLinkPage = adminPage.clickBrokenLinkTab();
 
   }
 

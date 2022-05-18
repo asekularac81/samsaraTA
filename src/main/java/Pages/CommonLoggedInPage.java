@@ -71,12 +71,12 @@ public abstract class CommonLoggedInPage extends BasePage {
     return practicePage.verifyPracticePage();
   }
 
-  public BrokenPage clickBrokenTab() {
-    log.debug("clickBrokenTab()");
+  public BrokenLinkPage clickBrokenLinkTab() {
+    log.debug("clickBrokenLinkTab()");
     WebElement brokenLinkTab = getWebElement(brokenLinkTabLocator);
     clickOnWebElement(brokenLinkTab);
-    BrokenPage brokenPage = new BrokenPage(driver);
-    return brokenPage.verifyBrokenPage();
+    BrokenLinkPage brokenLinkPage = new BrokenLinkPage(driver);
+    return brokenLinkPage.verifyBrokenLinkPage();
   }
 
   public AdminPage clickAdminTab() {
