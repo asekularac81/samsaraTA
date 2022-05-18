@@ -1,7 +1,14 @@
 package tests.login;
 
 import Data.Time;
+import Pages.APIPage;
+import Pages.AdminPage;
+import Pages.BrokenPage;
+import Pages.GalleryPage;
+import Pages.HeroesPage;
 import Pages.LoginPage;
+import Pages.PracticePage;
+import Pages.UsersPage;
 import Pages.WelcomePage;
 import Utils.DateTimeUtils;
 import Utils.PropertiesUtils;
@@ -39,14 +46,25 @@ public class SuccessfulLoginLogout extends BaseTest {
     LoginPage loginPage = new LoginPage(driver).open();
     loginPage.typeUsername(sUserName);
     loginPage.typePassword(sUserPassword);
-    WelcomePage welcomePage = loginPage.clickLoginButton();
 
+    //kad ocekujemo gresku
+    //loginPage = loginPage.clickLoginButtonNoProgress();
+
+    //kad ocekujemo uspesno da odemo na WelcomePage
+    WelcomePage welcomePage = loginPage.clickLoginButton();
+    UsersPage usersPage = welcomePage.clickUsersTab();
+    HeroesPage heroesPage = usersPage.clickHeroesTab();
+    GalleryPage galleryPage = heroesPage.clickGalleryTab();
+    APIPage apiPage = galleryPage.clickAPITab();
+    PracticePage practicePage = apiPage.clickPracticeTab();
+    AdminPage adminPage = practicePage.clickAdminTab();
+    BrokenPage brokenPage = adminPage.clickBrokenTab();
 
   }
 
   @AfterMethod(alwaysRun = true)
   public void tearDownTest (ITestResult testResult) {
     log.info("[END TEST] " + sTestName);
-    tearDown(driver, testResult);
+    //tearDown(driver, testResult);
   }
 }
