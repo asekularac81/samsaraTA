@@ -3,6 +3,7 @@
   <test name="Tests">
     <classes>
       <class name="tests.login.SuccessfulLoginLogout"/>
+      <class name="tests.login.UnsuccessfulLoinWrongPassword"/>
     </classes>
   </test>
 </suite>

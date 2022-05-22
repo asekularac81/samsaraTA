@@ -1,5 +1,6 @@
 package tests.login;
 
+import Data.CommonStrings;
 import Data.Time;
 import Pages.APIPage;
 import Pages.AdminPage;
@@ -13,12 +14,14 @@ import Pages.WelcomePage;
 import Utils.DateTimeUtils;
 import Utils.PropertiesUtils;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import tests.BaseTest;
 
+@Test(groups = {"regression", "sanity", "login"})
 public class SuccessfulLoginLogout extends BaseTest {
 
   private String sTestName = this.getClass().getName(); //moze i getSimpleName() za ime same klase, bez putanje
@@ -41,9 +44,18 @@ public class SuccessfulLoginLogout extends BaseTest {
 
   @Test
   public void testSuccessfulLoginLogout() {
+
+    String sExpectedLogoutSuccessMessage = CommonStrings.LOGOUT_SUCCESS_MESSAGE;
+
+
     log.info("[START TEST] " + sTestName);
     DateTimeUtils.wait(Time.DEMO_TIMEOUT);
     LoginPage loginPage = new LoginPage(driver).open();
+
+    // u osnovnom UI testu proveravamo i da ne postoje neocekivane poruke, u ostalim testovima ne
+    //Assert.assertFalse(login.isSuccessMessageDisplayed(), "Success Message should NOT be displayed!);
+    //Assert.assertFalse(login.isErrorMessageDisplayed(), "Error Message should NOT be displayed!);
+
     loginPage.typeUsername(sUserName);
     loginPage.typePassword(sUserPassword);
 
@@ -52,13 +64,18 @@ public class SuccessfulLoginLogout extends BaseTest {
 
     //kad ocekujemo uspesno da odemo na WelcomePage
     WelcomePage welcomePage = loginPage.clickLoginButton();
-    UsersPage usersPage = welcomePage.clickUsersTab();
+    loginPage = welcomePage.clickLogoutLink();
+
+    String sSuccessMessage = loginPage.getSuccessMessage();
+    Assert.assertEquals(sSuccessMessage, sExpectedLogoutSuccessMessage, "Wrong Logout Success Message!");
+
+/*    UsersPage usersPage = welcomePage.clickUsersTab();
     HeroesPage heroesPage = usersPage.clickHeroesTab();
     GalleryPage galleryPage = heroesPage.clickGalleryTab();
     APIPage apiPage = galleryPage.clickAPITab();
     PracticePage practicePage = apiPage.clickPracticeTab();
     AdminPage adminPage = practicePage.clickAdminTab();
-    BrokenLinkPage brokenLinkPage = adminPage.clickBrokenLinkTab();
+    BrokenLinkPage brokenLinkPage = adminPage.clickBrokenLinkTab();*/
 
   }
 

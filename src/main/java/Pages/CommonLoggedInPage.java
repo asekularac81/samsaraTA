@@ -23,7 +23,7 @@ public abstract class CommonLoggedInPage extends BasePage {
   private final By brokenLinkTabLocator = By.xpath(headerLocatorString + "//a[@href='" + PageUrlPaths.BROKEN_LINK_PAGE + "']");
   private final By adminTabLocator = By.xpath(headerLocatorString + "//a[@href='" + PageUrlPaths.ADMIN_PAGE + "']");
 
-  private final By logoutLinkLocator = By.xpath(headerLocatorString + "//a[contains(@href,'logoutForm.submit)]");
+  private final By logoutLinkLocator = By.xpath(headerLocatorString + "//a[contains(@href,'logoutForm.submit()')]");
 
 
   public CommonLoggedInPage(WebDriver driver) {
@@ -85,5 +85,13 @@ public abstract class CommonLoggedInPage extends BasePage {
     clickOnWebElement(adminTab);
     AdminPage adminPage = new AdminPage(driver);
     return adminPage.verifyAdminPage();
+  }
+
+  public LoginPage clickLogoutLink() {
+    log.debug("clickLogoutLink()");
+    WebElement logoutLink = getWebElement(logoutLinkLocator);
+    clickOnWebElement(logoutLink);
+    LoginPage loginPage = new LoginPage(driver);
+    return loginPage.verifyLoginPage();
   }
 }

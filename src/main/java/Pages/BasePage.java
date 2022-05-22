@@ -108,6 +108,18 @@ public abstract class BasePage extends LoggerUtils {
     return  wait.until(ExpectedConditions.elementToBeClickable(element));  // ima i varijanta da prosledis lokator ali mi cemo opciju sa prosledjenim WebElementom
   }
 
+  //Wrapovana opsta metoda koja  ako element ne postoji vrati false umesto ne da pukne kako bi mogla da se koristi i za negativan scenario.
+  protected boolean isWebElementDisplayed (By locator) {
+    log.debug("isWebElementDisplayed()");
+    try {
+      WebElement webElement =getWebElement(locator);
+      return webElement.isDisplayed();
+    }
+    catch (Exception e) {
+      return false;
+    }
+  }
+
   //Izdvajamo u BasePage Selenium metodu za kucanje texta - ako bude izmena da se ne odrazava u svim Page klasama vec samo ovde
   protected void typeTextToWebElement(WebElement element, String text) {
     log.trace("typeTextToWebElement(" + element + "," + text +")");
@@ -118,6 +130,11 @@ public abstract class BasePage extends LoggerUtils {
     log.trace("clearAndTypeTextToWebElement(" + element + "," + text +")");
     element.clear(); //cistimo predhodno jer sendKeys() samo dodaje, ne pise preko postejeceg
     element.sendKeys(text);
+  }
+
+  protected String getTextFromWebElement(WebElement element) {
+    log.trace("getTextFromWebElement(" + element + ")");
+    return element.getText();
   }
 
   // Sadrzaj text input fielda ne mozemo preko el.getText() vec moras el.getAtrribute("value")

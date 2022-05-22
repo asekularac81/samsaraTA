@@ -5,6 +5,7 @@ import Data.Time;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 
 public class LoginPage extends CommonLoggedOutPage {
 
@@ -43,6 +44,8 @@ public class LoginPage extends CommonLoggedOutPage {
   // private final By usernameTextFieldLocator = By.cssSelector("#username"); - skracenica za id je #
   // private final By usernameTextFieldLocator = By.cssSelector("div.username");
 
+  private final By successMessageLocator = By.xpath( loginBoxLocatorString + "//div[contains(@class, 'alert-success')]");
+
   // URL:
   private final String LOGIN_PAGE_URL = getPageUrl(PageUrlPaths.LOGIN_PAGE);
 
@@ -74,6 +77,12 @@ public class LoginPage extends CommonLoggedOutPage {
     return this;
   }
 
+
+/*  public boolean isUsernameTextFieldDisplayed() {
+    log.debug("isUsernameTextFieldDisplayed()");
+    //return isWebElementDisplayed();
+  }*/
+
   // Dobra praksa je JavaDoc na svim metodama koje se zovu iz testa, ne treba na private
   /**
    * Type Username in Username Text Field
@@ -82,6 +91,7 @@ public class LoginPage extends CommonLoggedOutPage {
    */
   public LoginPage typeUsername(String sUsername) {
     log.debug("typeUsername(" + sUsername + ")");
+    //Assert.assertTrue((isUsernameTextFieldDisplayed()), "Username Text Field is NOT displayed on Login Page!");
     //WebElement usernameTextField =  driver.findElement(By.id("username")); // Ovo moze, ali je zavisno od Selenium osnovnih metoda i bolje ubaciti u BasePage-getWebElement
     WebElement usernameTextField = getWebElement(usernameTextFieldLocator);
     //usernameTextField.sendKeys(sUsername); //necemo da se oslanjamo na sendKeys metody u LoginPage klasi, mozda ce da se promeni vec je napravimo u BasePage
@@ -138,7 +148,7 @@ public class LoginPage extends CommonLoggedOutPage {
   }
 
 
-  // metoda kad ne ocekujemo da se otvori Welcome page - npr invalid credentials
+  // Metoda kad ne ocekujemo da se otvori Welcome page - npr invalid credentials
   public LoginPage clickLoginButtonNoProgress() {
     log.debug("clickLoginButtonNoProgress()");
     clickLoginButtonNoVerify();
@@ -152,18 +162,42 @@ public class LoginPage extends CommonLoggedOutPage {
     return getValueFromWebElement(loginButton);
   }
 
+  // Moglo bi ovako - True ako je vidljiv, False ako postoji, ali je nevidljiv.
+  // Mana: puca ako element ne postoji
+  // Bolje da napravimo opstu metodu isWebElementDisplayed (By locator), stavimo je u try catch da ne puca ako ne postoji element
+  // Jer zelimo da je koristimo i za negativne scenarije
+  public boolean isSuccessMessageDisplayed1 () {
+    log.debug("isSuccessMessageDisplayed()");
+    WebElement successMessage = getWebElement(successMessageLocator);
+    return successMessage.isDisplayed();
+  }
+
+  // Koristimo opstu metodu isWebElementDisplayed()
+  public boolean isSuccessMessageDisplayed () {
+    log.debug("isSuccessMessageDisplayed()");
+    return isWebElementDisplayed(successMessageLocator);
+  }
+
+  public String getSuccessMessage(){
+    log.debug("getSuccessMessage()");
+    Assert.assertTrue(isSuccessMessageDisplayed(), "Success Message is NOT present on Login Page!");
+    WebElement successMessage = getWebElement(successMessageLocator);
+    return getTextFromWebElement(successMessage);
+  }
+
   // Stranicu u POM mozemo logicki da podelimo na:
   // low level library - private dohvatanje lokatora/WebElemenata
   // middle level library - osnovne metode za rad sa elementima (typeUsername, getUsername ,...)
   // high level library - kompleksne metode koje objedinjuju vise akcija koje cine logicku celinu.
-  // HL- uvek se oslanjaju na vec implementirane metode za pojedinacne elemente  a ne da  u kompleksoj metodi getujemo element po element
+  // HL- uvek se oslanjaju na vec implementirane metode za pojedinacne elemente a ne da  u kompleksoj metodi getujemo element po element
 
   // high level library primer, INFO logovanje za njih
   // nadalje koristimo ovu metodu uvek kad nam je login samo prolazna faza i nemamo medjuverifikaciju na njoj
   // ako hocemo da verifikujemo korak po korak onda tako pisemo u testu
-  // Kompleksne metode NE treba da setaju po stranicama, vec da sve rade na istoj stranici (uloguje se i ode na WelcomePage, naprave Heroja)
+  // Kompleksne metode NE treba da setaju po stranicama (uloguje se, ode na WelcomePage, napravi Heroja), vec da sve rade na istoj stranici da bi ispostovali POM
   // Ako ti bas treba da se kreces kroz stranice - onda ga stavi u BaseTest klasi
 
+  // Evo primera sa kompleksne metode (high level lib) sa method chainingom - ako nam pojedinacne metode vracaju stranicu, a nisu void.
   /**
    * Login to Samsara
    * @param sUsername {String} - Username

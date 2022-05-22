@@ -1,0 +1,17 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Regression Suite" parallel="methods" thread-count="4">
+  <test name="Regression Tests">
+    <groups>
+      <run>
+        <include name="sanity"/>
+        <exclude name="deprecated"/>
+        <exclude name="broken"/>
+        <exclude name="bugs"/>
+        <exclude name="sequential"/>
+      </run>
+    </groups>
+    <packages>
+      <package name = "tests.*"/>
+    </packages>
+  </test>
+</suite>
