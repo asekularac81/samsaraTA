@@ -38,4 +38,9 @@ public class BaseTest extends LoggerUtils {
       quitDriver(driver);
     }
   }
+
+  //overload tearDown() metode ako ocemo da ubijemo driver u toku testa (ne u finally) i posle startujemo novi
+  protected void tearDown(WebDriver driver) {
+    quitDriver(driver);
+  }
 }

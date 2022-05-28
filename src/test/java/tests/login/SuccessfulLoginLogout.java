@@ -26,7 +26,7 @@ public class SuccessfulLoginLogout extends BaseTest {
 
   private String sTestName = this.getClass().getName(); //moze i getSimpleName() za ime same klase, bez putanje
 
-  //driver treba da bude private da ne moze neko drugi da pristupi nastoj test klasi i koristi isti driver
+  // driver treba da bude private da ne moze neko drugi da pristupi nastoj test klasi i koristi isti driver
   // kao i promenjive...
   private WebDriver driver;
 
@@ -46,7 +46,6 @@ public class SuccessfulLoginLogout extends BaseTest {
   public void testSuccessfulLoginLogout() {
 
     String sExpectedLogoutSuccessMessage = CommonStrings.LOGOUT_SUCCESS_MESSAGE;
-
 
     log.info("[START TEST] " + sTestName);
     DateTimeUtils.wait(Time.DEMO_TIMEOUT);
@@ -82,6 +81,6 @@ public class SuccessfulLoginLogout extends BaseTest {
   @AfterMethod(alwaysRun = true)
   public void tearDownTest (ITestResult testResult) {
     log.info("[END TEST] " + sTestName);
-    //tearDown(driver, testResult);
+    tearDown(driver, testResult);
   }
 }

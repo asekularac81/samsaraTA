@@ -10,31 +10,31 @@ import org.testng.Assert;
 public class LoginPage extends CommonLoggedOutPage {
 
   // WEBELEMENTI/LOKATORI:
-  // ako NE koristimo PageFactory - onda definisemo LOKATORE za WebElemente, a svaka metoda mora da dohvati WebElement u trenutku kad oce da ga koristi, nikako pre jer ce se desiti StaleElemet greska
+  // ako NE koristimo PageFactory - definisemo LOKATORE za WebElemente, a svaka metoda mora da dohvati WebElement u trenutku kad oce da ga koristi, nikako pre jer se desava StaleElemet Reference greska
   // ako koristimo PageFactory - onda su to WEBELEMENTI
   // PRIVATE - da ne moze iz druge stranice/testa da se pristupa webelementu/lokatoru. Moci ce da im se pristupa samo preko metoda. Zasto:
-  // odrzavanje - ako se promeni lokator moras da menjas na vise mesta umesto da u Page napravis metode koje rade sa elemetom i ako se promeni menjas ga na 1 mestus
+  // odrzavanje - ako se promeni lokator moras da menjas na vise mesta umesto da u Page napravis metode koje rade sa elemetom i ako se promeni menjas ga na 1 mestu
   // da test bude napisan tako da ne zavisi od alata koji cemo mozda zeleti da menjamo
   // FINAL - da niko ne moze da ih dalje menja
 
-  // PRIMER SA LOKATORIMA (ako ne koristimo PageFactory)
+  // PRIMER SA LOKATORIMA (NE koristimo PageFactory)
   // Ovo su lokatori a webelemente cemo dohvatiti u samoj metodi - neposredno pred koristenje
-  // Naming konvecnija:
+  // Naming konvencija:
   // Sta radi element/ Tip elementa / Locator (ako je WebElement onda nista)
   private final By usernameTextFieldLocator = By.id("username");
   private final By passwordTextFieldLocator = By.id("password");
 
-  // posto classname nije uvek jedinstven bolje je da se nadje jedinstven element iznad i onda unutar njega dalje trazimos
-  // zbog odrzavanja i ubrzavamo pretragu. to radimo i kad nije neophodno jer ce mozda postati
+  // posto classname nije uvek jedinstven bolje je da se nadje jedinstven element iznad i onda unutar njega dalje trazimo
+  // zbog odrzavanja i ubrzavamo pretragu. to bolje da uradimo i kad nije neophodno jer ce mozda postati!
   private final String loginBoxLocatorString = "//div[@id='loginbox']"; // ovo mozes i gore da definises iznad
   private final By loginButtonLocator = By.xpath(loginBoxLocatorString + "//input[contains(@class,'btn-primary')]");
   // private final By loginButtonLocator = By.xpath(loginBoxLocatorString + + "//input[@type='submit']"); moze i ovako sa atributom type
 
   // private final WebElement usernameTextFiel = driver.findElement(usernameTextFieldLocator) - BAD PRACTICE!
-  // jer ce prilikom inicijalizacije stranice dohvatiti element i ako se izmeni DOM struktura stranice, dobicemo StaleElement gresku, ReferencedElement is not attached to DOM ...
+  // jer ce prilikom inicijalizacije stranice dohvatiti element i ako se izmeni DOM struktura stranice (kad se refreshuje, cekiras checkbox...), dobicemo StaleElemen, ReferencedElement is not attached to DOM gresku...
 
   // Praksa: ako ima id, ako ne onda trazimo xpath ili css, fokusiramo se prvo na atribut class
-  // Izbegavamo: linktext, partialLinkText - jer ako se promeni text pada sa greskom nema elementa, umesto sa greskom text nije dobar -expected, actual...
+  // Izbegavamo: linktext, partialLinkText - jer ako se promeni text pada sa greskom nema elementa, umesto sa greskom text nije dobar - expected, actual...
 
   // Primeri:
   // private final By usernameTextFieldLocator = By.classname("username");
@@ -57,7 +57,7 @@ public class LoginPage extends CommonLoggedOutPage {
 
   public LoginPage open(boolean bVerify) {
     log.debug("Open LoginPage(" + LOGIN_PAGE_URL + ")");
-    //driver.get(LOGIN_PAGE_URL); // ovako smo krenuli, ali to cemo da wrapujemo u BasePage metodu - openUrl(). prakticno kad imas driver.* sve ovo treba wrapovati u BasePage
+    //driver.get(LOGIN_PAGE_URL); // ovako smo krenuli, ali to cemo da wrapujemo u BasePage metodu - openUrl(). Prakticno, kad imas driver.* sve ovo treba wrapovati u BasePage
     openUrl(LOGIN_PAGE_URL);
     if (bVerify) {
       verifyLoginPage();
@@ -72,8 +72,11 @@ public class LoginPage extends CommonLoggedOutPage {
 
   public LoginPage verifyLoginPage() {
     log.debug("verifyLoginPage()");
-    waitForUrlChange(LOGIN_PAGE_URL, Time.TIME_SHORT);
-    waitUntilPageIsReady(Time.TIME_SHORT);
+    waitForUrlChange(LOGIN_PAGE_URL, Time.TIME_SHORT); // cekamo da se promeni URL. vraca boolean T/PUCA
+    waitUntilPageIsReady(Time.TIME_SHORT); // cekamo da se ucita DOM struktura
+    // opciono moze 3.provera -cekamo da se pojavi neki webelement koji se sporo ucitvava (iframe,widget, slika) waitfowebelementtobevisible
+    // svakako ne treba stavljati samo proveru za element, jer njega moramo najduze da cekamo pa bolje da odmah padna ako nije na pravom URLu
+    // a i ako se ucita, mozda nismo na pravoj stranici, vec taj element postoji na vise stranica
     return this;
   }
 
@@ -115,7 +118,7 @@ public class LoginPage extends CommonLoggedOutPage {
   }
 
   // Kozic predlaze - Ako metoda radi nesto i ostaje na istoj stranici, umesto da je stavimo da bude void, mozemo da vratimo instancu te iste stranice
-  // To omogucava method chaining - utackavanje LoginPage.typeUserneme().typePassword().clickLoginButton()
+  // To omogucava method chaining - utackavanje LoginPage.typeUserneme().typePassword().clickLoginButton();
   public LoginPage typePassword(String sPassword) {
     log.debug("typePassword(" + sPassword + ")");
     WebElement passwordTextField = getWebElement(passwordTextFieldLocator);
@@ -197,7 +200,7 @@ public class LoginPage extends CommonLoggedOutPage {
   // Kompleksne metode NE treba da setaju po stranicama (uloguje se, ode na WelcomePage, napravi Heroja), vec da sve rade na istoj stranici da bi ispostovali POM
   // Ako ti bas treba da se kreces kroz stranice - onda ga stavi u BaseTest klasi
 
-  // Evo primera sa kompleksne metode (high level lib) sa method chainingom - ako nam pojedinacne metode vracaju stranicu, a nisu void.
+  // Evo primera sa kompleksne metode (high level lib) sa method chainingom - ako nam pojedinacne metode vracaju stranicu, dakle nisu void.
   /**
    * Login to Samsara
    * @param sUsername {String} - Username

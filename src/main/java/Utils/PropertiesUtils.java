@@ -88,6 +88,10 @@ public class PropertiesUtils extends LoggerUtils {
     return Boolean.parseBoolean(getProperty("headless"));
   }
 
+  public static boolean getLocale() {
+    return Boolean.parseBoolean(getProperty("locale"));
+  }
+
   public static String getHubUrl() {
     return getProperty("hubUrl");
   }

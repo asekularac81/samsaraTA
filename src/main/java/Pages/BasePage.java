@@ -9,6 +9,7 @@ import Utils.WebDriverUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -32,10 +33,45 @@ public abstract class BasePage extends LoggerUtils {
     return PropertiesUtils.getBaseUrl() + sPath;
   }
 
+  protected String getCurrentUrl () {
+    log.trace("getCurrentUrl()");
+    return driver.getCurrentUrl();
+  }
+
+  // cekamo da se promeni URL - contains
+  // vraca boolean T/PUCA ako nije - sa lepom greskom
+  // org.openqa.selenium.TimeoutException: Expected condition failed: waiting for url to contain "http://18.219.75.209:8080/home".
+  // Current url: "http://18.219.75.209:8080/login" (tried for 5 second(s) with 500 milliseconds interval)
+  // u ovom slucaju nam ne treba assert kad je pozivamo jer se zna da ce puci ako nije promenjen URL ali sa lepom greskom
   protected boolean waitForUrlChange(String url, int timeOut) {
     log.trace("waitForUrlChange(" + url + ". " + timeOut + ")");
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
     return wait.until(ExpectedConditions.urlContains(url));
+  }
+
+  // Ako ti bas treba da vrati false ako nije promenjena URL imas 2 opcije:
+  // Prvo resenje - metoda sa FluentWaitom koja ignorise TimeoutException,  vraca T/F
+  protected boolean waitForUrlChangeIgnoreException(String url, int timeOut, int pollingTime)   {
+    log.trace("waitForUrlChangeIgnoreException(" + url + ", " + timeOut + "," + pollingTime + ")");
+    Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+        .withTimeout(Duration.ofSeconds(timeOut))
+        .pollingEvery(Duration.ofSeconds(pollingTime))
+        .ignoring(TimeoutException.class);
+    return wait.until(ExpectedConditions.urlContains(url));
+  }
+
+  // Drugo resenje - sa try/catch blokom
+  // vraca T/F pa posle koristis Assert.assertTrue, ali je test NG greska nedovoljno deskriptivna i moras u assertu dodat poruku
+  // pa je zato bolje opcija da pukne sa waitForUrlChange()
+  protected boolean waitForUrlChangeIgnoreException2(String url, int timeOut) {
+    log.trace("waitForUrlChangeIgnoreException2(" + url + ". " + timeOut + ")");
+    try {
+      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+      return wait.until(ExpectedConditions.urlContains(url));
+    }
+    catch (TimeoutException e){
+      return false;
+    }
   }
 
   protected boolean waitForUrlChangeToExactUrl(String url, int timeOut) {
@@ -49,6 +85,7 @@ public abstract class BasePage extends LoggerUtils {
     driver.get(url);
   }
 
+  // cekamo da se ucita DOM struktura
   protected boolean waitUntilPageIsReady(int timeOut) {
     log.trace("waitUntilPageIsReady(" + timeOut + ")");
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
