@@ -9,9 +9,12 @@ import org.testng.Assert;
 
 public class LoginPage extends CommonLoggedOutPage {
 
-  // WEBELEMENTI/LOKATORI:
+  // PAGE URL PATHS
+  private final String LOGIN_PAGE_URL = getPageUrl(PageUrlPaths.LOGIN_PAGE);
+
+  // WEB ELEMENTI/LOKATORI:
   // ako NE koristimo PageFactory - definisemo LOKATORE za WebElemente, a svaka metoda mora da dohvati WebElement u trenutku kad oce da ga koristi, nikako pre jer se desava StaleElemet Reference greska
-  // ako koristimo PageFactory - onda su to WEBELEMENTI
+  // ako koristimo PageFactory - onda su to WEB ELEMENTI
   // PRIVATE - da ne moze iz druge stranice/testa da se pristupa webelementu/lokatoru. Moci ce da im se pristupa samo preko metoda. Zasto:
   // odrzavanje - ako se promeni lokator moras da menjas na vise mesta umesto da u Page napravis metode koje rade sa elemetom i ako se promeni menjas ga na 1 mestu
   // da test bude napisan tako da ne zavisi od alata koji cemo mozda zeleti da menjamo
@@ -24,14 +27,20 @@ public class LoginPage extends CommonLoggedOutPage {
   private final By usernameTextFieldLocator = By.id("username");
   private final By passwordTextFieldLocator = By.id("password");
 
+  // private final WebElement usernameTextFiel = driver.findElement(usernameTextFieldLocator) - BAD PRACTICE!
+  // jer ce prilikom inicijalizacije stranice dohvatiti element i ako se izmeni DOM struktura stranice (kad se refreshuje, cekiras checkbox...), dobicemo StaleElemen, ReferencedElement is not attached to DOM gresku...
+
   // posto classname nije uvek jedinstven bolje je da se nadje jedinstven element iznad i onda unutar njega dalje trazimo
   // zbog odrzavanja i ubrzavamo pretragu. to bolje da uradimo i kad nije neophodno jer ce mozda postati!
-  private final String loginBoxLocatorString = "//div[@id='loginbox']"; // ovo mozes i gore da definises iznad
+  private final String loginBoxLocatorString = "//div[@id='loginbox']"; // xpath za zajednicki parent element za login Box
   private final By loginButtonLocator = By.xpath(loginBoxLocatorString + "//input[contains(@class,'btn-primary')]");
   // private final By loginButtonLocator = By.xpath(loginBoxLocatorString + + "//input[@type='submit']"); moze i ovako sa atributom type
 
-  // private final WebElement usernameTextFiel = driver.findElement(usernameTextFieldLocator) - BAD PRACTICE!
-  // jer ce prilikom inicijalizacije stranice dohvatiti element i ako se izmeni DOM struktura stranice (kad se refreshuje, cekiras checkbox...), dobicemo StaleElemen, ReferencedElement is not attached to DOM gresku...
+  //Register i Forgot password links
+  //private final By createAccountLinkLocator = By.xpath( loginBoxLocatorString + "//a[@href='/register']"); -moze ali cemo da parametrizujemo pomocu PageUrlPaths
+  //private final By resetPasswordLinkLocator = By.xpath( loginBoxLocatorString + "//a[@href='/forgotPassword']");
+  private final By createAccountLinkLocator = By.xpath( loginBoxLocatorString + "//a[@href='"+ PageUrlPaths.REGISTER_PAGE + "']");
+  private final By resetPasswordLinkLocator = By.xpath( loginBoxLocatorString + "//a[@href='" + PageUrlPaths.FORGOT_PASSWORD_PAGE + "']");
 
   // Praksa: ako ima id, ako ne onda trazimo xpath ili css, fokusiramo se prvo na atribut class
   // Izbegavamo: linktext, partialLinkText - jer ako se promeni text pada sa greskom nema elementa, umesto sa greskom text nije dobar - expected, actual...
@@ -46,10 +55,7 @@ public class LoginPage extends CommonLoggedOutPage {
 
   private final By successMessageLocator = By.xpath( loginBoxLocatorString + "//div[contains(@class, 'alert-success')]");
 
-  // URL:
-  private final String LOGIN_PAGE_URL = getPageUrl(PageUrlPaths.LOGIN_PAGE);
-
-  // METODE:
+  // KONSTRUKTOR
   public LoginPage(WebDriver driver) {
     super(driver);
     log.trace("new LoginPage()");
@@ -80,11 +86,11 @@ public class LoginPage extends CommonLoggedOutPage {
     return this;
   }
 
-
-/*  public boolean isUsernameTextFieldDisplayed() {
+  // USERNAME
+  public boolean isUsernameTextFieldDisplayed() {
     log.debug("isUsernameTextFieldDisplayed()");
-    //return isWebElementDisplayed();
-  }*/
+    return isWebElementDisplayed(usernameTextFieldLocator);
+  }
 
   // Dobra praksa je JavaDoc na svim metodama koje se zovu iz testa, ne treba na private
   /**
@@ -104,11 +110,16 @@ public class LoginPage extends CommonLoggedOutPage {
 
   // napravicemo typeUsernameSlowly-metoda koja kucka slovo po slovo u petlji i preko JS proverava da se text promenio
 
-
   public String getUsername() {
     log.debug("getUsername()");
     WebElement usernameTextField  = getWebElement(usernameTextFieldLocator); //uvek iznova getujemo element preko lokatora u trenutku kad zelimo sa njim da radimo
     return getValueFromWebElement(usernameTextField); // ako se desi da Selenium ne moze da getuje ovu vredosti ili vrati staru, pozvacemo JS metodu getValueFromWebElementJS
+  }
+
+  // PASSWORD
+  public boolean isPasswordTextFieldDisplayed() {
+    log.debug("isPasswordTextFieldDisplayed()");
+    return isWebElementDisplayed(passwordTextFieldLocator);
   }
 
   public void typePassword_VoidPrimer(String sPassword) {
@@ -132,8 +143,16 @@ public class LoginPage extends CommonLoggedOutPage {
     return getValueFromWebElement(passwordTextField);
   }
 
-
+  // LOGIN BUTTON
+  // Klik na Login Buton moze da vodi na Welcome page ILI ostajemo na Login ako je login bio neuspesan
+  // Zato cemo imati 2 metode - clickLoginButton() i clickLoginButtonNoProgress()
   // Zajednicki deo za ove 2 metode dole cemo da stavimo u PRIVATE metodu, da ne dupliramo kod
+
+  public boolean isLoginButtonDisplayed() {
+    log.debug("isLoginButtonDisplayed()");
+    return isWebElementDisplayed(loginButtonLocator);
+  }
+
   private void clickLoginButtonNoVerify() {
     log.debug("clickLoginButtonNoVerify()");
     WebElement loginButton = getWebElement(loginButtonLocator);
@@ -186,6 +205,53 @@ public class LoginPage extends CommonLoggedOutPage {
     Assert.assertTrue(isSuccessMessageDisplayed(), "Success Message is NOT present on Login Page!");
     WebElement successMessage = getWebElement(successMessageLocator);
     return getTextFromWebElement(successMessage);
+  }
+
+  //Metode za ERROR MESSAGE
+
+
+  // CREATE ACCOUNT LINK
+  public boolean isCreateAccountLinkDisplayed() {
+    log.debug("isCreateAccountLinkDisplayed()");
+    return isWebElementDisplayed(createAccountLinkLocator);
+  }
+
+  public RegisterPage clickCreateAccountLink() {
+    log.debug("clickCreateAccountLink()");
+    Assert.assertTrue(isCreateAccountLinkDisplayed(), "'Create Account' Link is NOT displayed on Login Page!");
+    WebElement createAccountLink = getWebElement(createAccountLinkLocator);
+    clickOnWebElement(createAccountLink);
+    RegisterPage registerPage = new RegisterPage(driver);
+    return registerPage.verifyRegisterPage();
+  }
+
+  public String getCreateAccountLinkTitle() {
+    log.debug("getCreateAccountLinkTitle()");
+    Assert.assertTrue(isCreateAccountLinkDisplayed(), "'Create Account' Link is NOT displayed on Login Page!");
+    WebElement createAccountLink = getWebElement(createAccountLinkLocator);
+    return getTextFromWebElement(createAccountLink);
+  }
+
+  // RESET PASSWORD LINK
+  public boolean isResetPasswordLinkDisplayed() {
+    log.debug("isResetPasswordLinkDisplayed()");
+    return isWebElementDisplayed(resetPasswordLinkLocator);
+  }
+
+  public ResetPasswordPage clickResetPasswordLink() {
+    log.debug("clickResetPasswordLink()");
+    Assert.assertTrue(isResetPasswordLinkDisplayed(), "'Reset password' Link is NOT displayed on Login Page!");
+    WebElement resetPasswordLink = getWebElement(resetPasswordLinkLocator);
+    clickOnWebElement(resetPasswordLink);
+    ResetPasswordPage resetPasswordPage = new ResetPasswordPage(driver);
+    return resetPasswordPage.verifyResetPasswordPage();
+  }
+
+  public String getResetPasswordAccountLinkTitle() {
+    log.debug("getResetPasswordAccountLinkTitle()");
+    Assert.assertTrue(isResetPasswordLinkDisplayed(), "'Reset Password' Link is NOT displayed on Login Page!");
+    WebElement resetPasswordLink = getWebElement(resetPasswordLinkLocator);
+    return getTextFromWebElement(resetPasswordLink);
   }
 
   // Stranicu u POM mozemo logicki da podelimo na:

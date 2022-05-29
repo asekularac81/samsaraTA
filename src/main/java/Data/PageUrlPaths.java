@@ -13,4 +13,6 @@ public final class PageUrlPaths {
   public static final String PRACTICE_PAGE = "/practice";
   public static final String BROKEN_LINK_PAGE = "/broken";
   public static final String ADMIN_PAGE = "/admin";
+  public static final String REGISTER_PAGE = "/register";
+  public static final String FORGOT_PASSWORD_PAGE = "/forgotpassword";
 }

@@ -7,6 +7,7 @@ import Pages.AdminPage;
 import Pages.BrokenLinkPage;
 import Pages.GalleryPage;
 import Pages.HeroesPage;
+import Pages.HomePage;
 import Pages.LoginPage;
 import Pages.PracticePage;
 import Pages.UsersPage;
@@ -63,6 +64,10 @@ public class SuccessfulLoginLogout extends BaseTest {
 
     //kad ocekujemo uspesno da odemo na WelcomePage
     WelcomePage welcomePage = loginPage.clickLoginButton();
+    welcomePage.getPageTitle();
+    HomePage homePage = welcomePage.clickHomeTab();
+    homePage.getPageTitle();
+
     loginPage = welcomePage.clickLogoutLink();
 
     String sSuccessMessage = loginPage.getSuccessMessage();

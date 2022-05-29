@@ -14,8 +14,8 @@ public class HeroesPage extends CommonLoggedInPage {
   }
 
   public HeroesPage open(boolean bVerify) {
+    log.debug("Open HeroesPage(" + HEROES_PAGE_URL + ")");
     openUrl(HEROES_PAGE_URL);
-    log.trace("Open HeroesPage(" + HEROES_PAGE_URL + ")");
     if (bVerify) {
       verifyHeroesPage();
     }

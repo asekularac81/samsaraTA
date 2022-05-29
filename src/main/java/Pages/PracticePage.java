@@ -14,8 +14,8 @@ public class PracticePage extends CommonLoggedInPage{
   }
 
   public PracticePage open(boolean bVerify) {
-    openUrl(PRACTICE_PAGE_URL);
     log.debug("Open PracticePage(" + PRACTICE_PAGE_URL + ")");
+    openUrl(PRACTICE_PAGE_URL);
     if (bVerify){
       verifyPracticePage();
     }

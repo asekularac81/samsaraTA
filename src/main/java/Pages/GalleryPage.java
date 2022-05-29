@@ -7,14 +7,15 @@ import org.openqa.selenium.WebDriver;
 public class GalleryPage extends CommonLoggedInPage{
   private final String GALLERY_PAGE_URL = getPageUrl(PageUrlPaths.GALLERY_PAGE);
 
+  // KONSTRUKTOR
   public GalleryPage(WebDriver driver) {
     super(driver);
     log.trace("new GalleryPage()");
   }
 
   public GalleryPage open(boolean bVerify) {
-    openUrl(GALLERY_PAGE_URL);
     log.debug("Open GalleryPage()"+ GALLERY_PAGE_URL + ")");
+    openUrl(GALLERY_PAGE_URL);
     if (bVerify) {
       verifyGalleryPage();
     }

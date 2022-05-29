@@ -14,8 +14,8 @@ public class BrokenLinkPage extends CommonLoggedInPage {
   }
 
   public BrokenLinkPage open(boolean bVerify) {
-    openUrl(BROKEN_LINK_PAGE);
     log.debug("Open BrokenLinkPage(" + BROKEN_LINK_PAGE + ")");
+    openUrl(BROKEN_LINK_PAGE);
     if (bVerify) {
       verifyBrokenLinkPage();
     }

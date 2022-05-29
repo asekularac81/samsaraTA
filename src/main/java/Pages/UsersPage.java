@@ -14,8 +14,8 @@ public class UsersPage extends CommonLoggedInPage {
   }
 
   public UsersPage open(boolean bVerify) {
-    openUrl(USERS_PAGE_URL);
     log.debug("Open UsersPage(" + USERS_PAGE_URL + ")");
+    openUrl(USERS_PAGE_URL);
     if (bVerify) {
       verifyUsersPage();
     }

@@ -15,8 +15,8 @@ public class WelcomePage extends CommonLoggedInPage {
 
   //Prvo sto cemo da naravimo je open() metoda i verifyWelcomePage() metoda
   public WelcomePage open(boolean bVerify) {
-    openUrl(WELCOME_PAGE_URL);
     log.debug("Open  WelcomePage( "  + WELCOME_PAGE_URL + ")");
+    openUrl(WELCOME_PAGE_URL);
     if (bVerify) {
       verifyWelcomePage();
     }
