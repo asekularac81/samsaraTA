@@ -155,6 +155,7 @@ public class LoginPage extends CommonLoggedOutPage {
 
   private void clickLoginButtonNoVerify() {
     log.debug("clickLoginButtonNoVerify()");
+    Assert.assertTrue(isLoginButtonDisplayed(), "Login Button is NOT displayed on Login Page!");
     WebElement loginButton = getWebElement(loginButtonLocator);
     clickOnWebElement(loginButton);
   }

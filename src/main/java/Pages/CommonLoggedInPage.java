@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
-public abstract class CommonLoggedInPage extends BasePage {
+public abstract class CommonLoggedInPage extends CommonPage {
 
   //LOKATORI:
 
@@ -26,8 +26,8 @@ public abstract class CommonLoggedInPage extends BasePage {
   private final By adminTabLocator = By.xpath(headerLocatorString + "//a[@href='" + PageUrlPaths.ADMIN_PAGE + "']");
 
   private final By logoutLinkLocator = By.xpath(headerLocatorString + "//a[contains(@href,'logoutForm.submit()')]");
-  private final By pageTitleLocator = By.xpath(("//div[@class='panel-heading']//div[contains(@class,'panel-title')]"));
 
+  //KONSTRUKTOR
   public CommonLoggedInPage(WebDriver driver) {
     super(driver);
   }
@@ -230,19 +230,4 @@ public abstract class CommonLoggedInPage extends BasePage {
     return loginPage.verifyLoginPage();
   }
 
-  // PAGE TITLE
-  // Page title je isti element na svim ulogovanim stranicama OSIM HomePage gde izgleda drugacije
-  // Mi cemo napraviti zajednicke metode za title u CommonLoggedInPage
-  // a zatim cemo da ih overridujemo samo u HomePage klasi
-  public boolean isPageTitleDisplayed() {
-    log.debug("isPageTitleDisplayed()");
-    return isWebElementDisplayed(pageTitleLocator);
-  }
-
-  public String getPageTitle() {
-    log.debug("getPageTitle()");
-    Assert.assertTrue(isPageTitleDisplayed(), "Page Title is NOT displayed!");
-    WebElement pageTitle = getWebElement(pageTitleLocator);
-    return getTextFromWebElement(pageTitle);
-  }
 }
