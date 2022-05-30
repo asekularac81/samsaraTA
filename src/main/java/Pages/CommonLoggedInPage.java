@@ -215,7 +215,7 @@ public abstract class CommonLoggedInPage extends CommonPage {
     return getTextFromWebElement(adminTab);
   }
 
-  //LOGOUT LINK
+  //LOGOUT LINK - isDisplayed, click, getTitle
   public boolean isLogoutLinkDisplayed() {
     log.debug("isLogoutLinkDisplayed()");
     return isWebElementDisplayed(logoutLinkLocator);
@@ -229,5 +229,14 @@ public abstract class CommonLoggedInPage extends CommonPage {
     LoginPage loginPage = new LoginPage(driver);
     return loginPage.verifyLoginPage();
   }
+
+  public String getLogoutLinkTitle() {
+    log.debug("getLogoutLinkTitle");
+    Assert.assertTrue(isLogoutLinkDisplayed(), "Logout Link is NOT displayed on Navigation Bar!");
+    WebElement logoutLink = getWebElement(logoutLinkLocator);
+    return getTextFromWebElement(logoutLink);
+  }
+
+
 
 }

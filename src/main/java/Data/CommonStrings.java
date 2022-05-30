@@ -25,4 +25,7 @@ public final class CommonStrings {
   //BUTTON TITLES
   public static final String LOGIN_BUTTON_TITLE = "Log In";
 
+  //LINK TITLES
+  public static final String LOGOUT_LINK_TITLE = "Log Out";
+
 }

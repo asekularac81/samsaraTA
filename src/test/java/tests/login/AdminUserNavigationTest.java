@@ -46,7 +46,7 @@ public class AdminUserNavigationTest extends BaseTest {
     LoginPage loginPage = new LoginPage(driver).open();
     Assert.assertEquals(loginPage.getPageTitle(), "Samsara", "Wrong page Title on Login Page!");
 
-    log.info("Enter admin usernam and password. Click Login Button and navigate to Welcome Page");
+    log.info("Enter admin username and password. Click Login Button and navigate to Welcome Page");
     loginPage.typeUsername(sUserName);
     loginPage.typePassword(sUserPassword);
 
@@ -89,12 +89,16 @@ public class AdminUserNavigationTest extends BaseTest {
     softAssert.assertEquals(adminPage.getAdminTabTitle(), CommonStrings.ADMIN_TAB_TITLE, "Wrong Admin Tab Title on Navigation Bar!");
     softAssert.assertAll("At least one of Tab names on  Navigation Bar is incorrect!");
 
+    log.info("Click Log Out Link and navigate to Login page.");
+    Assert.assertEquals(adminPage.getLogoutLinkTitle(), CommonStrings.LOGOUT_LINK_TITLE, "Wrong Logout Link Title on Admin Page!");
+    loginPage = adminPage.clickLogoutLink();
+
   }
 
   @AfterMethod(alwaysRun = true)
   public void tearDownTest (ITestResult testResult) {
     log.info("[END TEST] " + sTestName);
-    //tearDown(driver, testResult);
+    tearDown(driver, testResult);
   }
 
 }

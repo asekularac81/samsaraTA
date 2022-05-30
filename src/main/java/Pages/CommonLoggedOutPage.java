@@ -56,5 +56,4 @@ public abstract class CommonLoggedOutPage extends CommonPage{
     return getTextFromWebElement(logInLink);
   }
 
-
 }
