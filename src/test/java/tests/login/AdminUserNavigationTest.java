@@ -44,7 +44,7 @@ public class AdminUserNavigationTest extends BaseTest {
 
     log.info("Open Login page and verify Page title.");
     LoginPage loginPage = new LoginPage(driver).open();
-    Assert.assertEquals(loginPage.getPageTitle(), "Samsara", "Wrong page title on Login Page!");
+    Assert.assertEquals(loginPage.getPageTitle(), "Samsara", "Wrong page Title on Login Page!");
 
     log.info("Enter admin usernam and password. Click Login Button and navigate to Welcome Page");
     loginPage.typeUsername(sUserName);
@@ -52,7 +52,7 @@ public class AdminUserNavigationTest extends BaseTest {
 
     Assert.assertEquals(loginPage.getLoginButtonTitle(), CommonStrings.LOGIN_BUTTON_TITLE, "Wrong Login Button Title on Login Page!");
     WelcomePage welcomePage = loginPage.clickLoginButton();
-    Assert.assertEquals(welcomePage.getPageTitle(), CommonStrings.WELCOME_PAGE_TITLE, "Wrong page title on Welcome Page!");
+    Assert.assertEquals(welcomePage.getPageTitle(), CommonStrings.WELCOME_PAGE_TITLE, "Wrong page Title on Welcome Page!");
 
     log.info("Click Users tab, navigate to Users page and verify page Title.");
     UsersPage usersPage = welcomePage.clickUsersTab();
@@ -68,16 +68,16 @@ public class AdminUserNavigationTest extends BaseTest {
 
     log.info("Click Gallery tab, navigate to API page and verify page Title.");
     APIPage apiPage = galleryPage.clickAPITab();
-    Assert.assertEquals(apiPage.getPageTitle(), CommonStrings.API_PAGE_TITLE, "Wrong page title on API Page!");
+    Assert.assertEquals(apiPage.getPageTitle(), CommonStrings.API_PAGE_TITLE, "Wrong page Title on API Page!");
 
     log.info("Click Practice tab, navigate to Practice page and verify page Title.");
     PracticePage practicePage = galleryPage.clickPracticeTab();
-    Assert.assertEquals(practicePage.getPageTitle(), CommonStrings.PRACTICE_PAGE_TITLE, "Wrong page title on Practice Page!");
+    Assert.assertEquals(practicePage.getPageTitle(), CommonStrings.PRACTICE_PAGE_TITLE, "Wrong page Title on Practice Page!");
 
     log.info("Click Admin tab, navigate to Admin page and verify page Title.");
     Assert.assertTrue(practicePage.isAdminTabDisplayed(),"Admin Tab is NOT displayed on for Admin User!");
     AdminPage adminPage = practicePage.clickAdminTab();
-    Assert.assertEquals(adminPage.getPageTitle(), CommonStrings.ADMIN_PAGE_TITLE,  "Wrong page title on Admin Page!");
+    Assert.assertEquals(adminPage.getPageTitle(), CommonStrings.ADMIN_PAGE_TITLE,  "Wrong page Title on Admin Page!");
 
     log.info("Verify Tab names in Navigation Bar!");
     SoftAssert softAssert = new SoftAssert();
