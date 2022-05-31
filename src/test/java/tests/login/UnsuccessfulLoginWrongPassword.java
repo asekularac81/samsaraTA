@@ -1,6 +1,7 @@
 package tests.login;
 
 import Data.CommonStrings;
+import Data.Groups;
 import Pages.LoginPage;
 import Utils.PropertiesUtils;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +12,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import tests.BaseTest;
 
-@Test(groups = {"regression", "sanity", "login"})
+@Test(groups = {Groups.REGRESSION, Groups.SANITY, Groups.LOGIN})
 public class UnsuccessfulLoginWrongPassword extends BaseTest {
 
   private String sTestName = this.getClass().getName();

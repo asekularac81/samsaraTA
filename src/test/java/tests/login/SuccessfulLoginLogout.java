@@ -1,6 +1,7 @@
 package tests.login;
 
 import Data.CommonStrings;
+import Data.Groups;
 import Data.Time;
 import Pages.LoginPage;
 import Pages.WelcomePage;
@@ -14,7 +15,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import tests.BaseTest;
 
-@Test(groups = {"regression", "sanity", "login"})
+@Test(groups = {Groups.REGRESSION, Groups.SANITY, Groups.LOGIN})
 public class SuccessfulLoginLogout extends BaseTest {
 
   private String sTestName = this.getClass().getName(); //moze i getSimpleName() za ime same klase, bez putanje
