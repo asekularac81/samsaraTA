@@ -46,41 +46,15 @@ public class SuccessfulLoginLogout extends BaseTest {
   @Test
   public void testSuccessfulLoginLogout() {
 
-    String sExpectedLogoutSuccessMessage = CommonStrings.LOGOUT_SUCCESS_MESSAGE;
-
     log.info("[START TEST] " + sTestName);
     DateTimeUtils.wait(Time.DEMO_TIMEOUT);
     LoginPage loginPage = new LoginPage(driver).open();
 
-    // u osnovnom UI testu proveravamo i da ne postoje neocekivane poruke, u ostalim testovima ne
-    //Assert.assertFalse(login.isSuccessMessageDisplayed(), "Success Message should NOT be displayed!);
-    //Assert.assertFalse(login.isErrorMessageDisplayed(), "Error Message should NOT be displayed!);
-
     loginPage.typeUsername(sUserName);
     loginPage.typePassword(sUserPassword);
 
-    //kad ocekujemo gresku
-    //loginPage = loginPage.clickLoginButtonNoProgress();
-
-    //kad ocekujemo uspesno da odemo na WelcomePage
     WelcomePage welcomePage = loginPage.clickLoginButton();
-    welcomePage.getPageTitle();
-    HomePage homePage = welcomePage.clickHomeTab();
-    homePage.getPageTitle();
-
     loginPage = welcomePage.clickLogoutLink();
-
-    String sSuccessMessage = loginPage.getSuccessMessage();
-    Assert.assertEquals(sSuccessMessage, sExpectedLogoutSuccessMessage, "Wrong Logout Success Message!");
-
-/*    UsersPage usersPage = welcomePage.clickUsersTab();
-    HeroesPage heroesPage = usersPage.clickHeroesTab();
-    GalleryPage galleryPage = heroesPage.clickGalleryTab();
-    APIPage apiPage = galleryPage.clickAPITab();
-    PracticePage practicePage = apiPage.clickPracticeTab();
-    AdminPage adminPage = practicePage.clickAdminTab();
-    BrokenLinkPage brokenLinkPage = adminPage.clickBrokenLinkTab();*/
-
   }
 
   @AfterMethod(alwaysRun = true)
