@@ -224,7 +224,7 @@ public class LoginPage extends CommonLoggedOutPage {
 
   public String getErrorMessage () {
     log.debug("getErrorMessage()");
-    Assert.assertTrue(isErrorMessageDisplayed()), "Error Message is NOT present on Login Page!");
+    Assert.assertTrue(isErrorMessageDisplayed(), "Error Message is NOT present on Login Page!");
     WebElement errorMessage = getWebElement(errorMessageLocator);
     return getTextFromWebElement(errorMessage);
   }
