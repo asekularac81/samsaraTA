@@ -35,7 +35,8 @@ public class UnsuccessfulLoginWrongPassword extends BaseTest {
   public void testUnsuccessfulLogin() {
 
     log.info("[START TEST] " + sTestName);
-    String sExpectedLoginErrorMessage = CommonStrings.LOGIN_ERROR_MESSAGE;
+    //String sExpectedLoginErrorMessage = CommonStrings.LOGIN_ERROR_MESSAGE; //ovo je ako nemamo lokalizaciju
+    String sExpectedLoginErrorMessage = CommonStrings.getLocaleString(CommonStrings.LOGIN_ERROR_MESSAGE); //ovde koristimo opstu metodu getLocaleString()
 
     log.info("Open Login page.");
     LoginPage loginPage = new LoginPage(driver).open();

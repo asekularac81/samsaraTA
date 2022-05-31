@@ -1,0 +1,6 @@
+# pravimo file tipa .properties da bi imali par kljuc (jedinstveni naziv stringa) i vrednost (na datom jeziku).
+# moze i .txt
+
+# LOGIN PAGE
+LOGOUT_SUCCESS_MESSAGE = You have been logged out.
+LOGIN_ERROR_MESSAGE = Invalid username and password.

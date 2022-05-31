@@ -40,10 +40,11 @@ public class SuccessfulLoginLogout extends BaseTest {
   public void testSuccessfulLoginLogout() {
 
     log.info("[START TEST] " + sTestName);
-    String sExpectedLogoutSuccessMessage = CommonStrings.LOGOUT_SUCCESS_MESSAGE;
+    String sExpectedLogoutSuccessMessage = CommonStrings.getLogoutSuccessMessage(); // ako imamo lokalizaciju i posebnu metodu za svaki String
+    //String sExpectedLogoutSuccessMessage1 = CommonStrings.getLocaleString(CommonStrings.LOGOUT_SUCCESS_MESSAGE); // ako imamo lokalizaciju ali ne pravimo posebne metode za svaki string vec koristimo opstu
+    //String sExpectedLogoutSuccessMessage = CommonStrings.LOGOUT_SUCCESS_MESSAGE; // ako nemamo lokaclizaciju vec sve stringove definisemo u CommonStrings
 
     DateTimeUtils.wait(Time.DEMO_TIMEOUT);
-
 
     log.info("Open Login page and verify there is no Success or Error message.");
     LoginPage loginPage = new LoginPage(driver).open();

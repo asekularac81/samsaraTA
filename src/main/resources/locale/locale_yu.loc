@@ -1,0 +1,2 @@
+LOGOUT_SUCCESS_MESSAGE = Uspesno ste izlogovani.
+LOGIN_ERROR_MESSAGE = Pogresan username ili password.
