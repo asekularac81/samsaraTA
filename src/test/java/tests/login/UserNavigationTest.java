@@ -44,7 +44,7 @@ public class UserNavigationTest extends BaseTest {
 
     log.info("Open Login page and verify Page title.");
     LoginPage loginPage = new LoginPage(driver).open();
-    Assert.assertEquals(loginPage.getPageTitle(), "Samsara", "Wrong page Title on Login Page!");
+    Assert.assertEquals(loginPage.getPageTitle(), CommonStrings.LOGIN_PAGE_TITLE, "Wrong page Title on Login Page!");
 
     log.info("Enter user username and password.");
     loginPage.typeUsername(sUserName);

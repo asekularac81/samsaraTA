@@ -4,6 +4,7 @@ public final class CommonStrings {
   public static final String LOGOUT_SUCCESS_MESSAGE = "You have been logged out.";
 
   //TITLE
+  public static final String LOGIN_PAGE_TITLE = "Samsara";
   public static final String WELCOME_PAGE_TITLE = "Hello, and welcome to our gamers page!";
   public static final String HOME_PAGE_TITLE = "Samsara Homepage";
   public static final String USERS_PAGE_TITLE = "Users";
