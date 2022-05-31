@@ -51,9 +51,12 @@ public class SuccessfulLoginLogout extends BaseTest {
 
     DateTimeUtils.wait(Time.DEMO_TIMEOUT);
 
-    log.info("Open Login page, type username and password.");
+    log.info("Open Login page and verify there is no Success or Error message.");
     LoginPage loginPage = new LoginPage(driver).open();
+    Assert.assertFalse(loginPage.isSuccessMessageDisplayed(),"Success Message should NOT be displayed!");
+    Assert.assertFalse(loginPage.isErrorMessageDisplayed(),"Error Message should NOT be displayed!");
 
+    log.info("Type username and password.");
     loginPage.typeUsername(sUserName);
     loginPage.typePassword(sUserPassword);
 

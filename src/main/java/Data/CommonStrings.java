@@ -2,6 +2,7 @@ package Data;
 
 public final class CommonStrings {
   public static final String LOGOUT_SUCCESS_MESSAGE = "You have been logged out.";
+  public static final String LOGIN_ERROR_MESSAGE = "Invalid username and password.";
 
   //PAGE TITLES
   public static final String LOGIN_PAGE_TITLE = "Samsara";

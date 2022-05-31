@@ -2,6 +2,7 @@ package Pages;
 
 import Data.PageUrlPaths;
 import Data.Time;
+import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -54,6 +55,8 @@ public class LoginPage extends CommonLoggedOutPage {
   // private final By usernameTextFieldLocator = By.cssSelector("div.username");
 
   private final By successMessageLocator = By.xpath( loginBoxLocatorString + "//div[contains(@class, 'alert-success')]");
+  private final By errorMessageLocator = By.xpath( loginBoxLocatorString + "//div[contains(@class,'alert-danger')]");
+
 
   // KONSTRUKTOR
   public LoginPage(WebDriver driver) {
@@ -86,7 +89,7 @@ public class LoginPage extends CommonLoggedOutPage {
     return this;
   }
 
-  // USERNAME
+  // USERNAME - isDisplayed,type, get
   public boolean isUsernameTextFieldDisplayed() {
     log.debug("isUsernameTextFieldDisplayed()");
     return isWebElementDisplayed(usernameTextFieldLocator);
@@ -100,7 +103,7 @@ public class LoginPage extends CommonLoggedOutPage {
    */
   public LoginPage typeUsername(String sUsername) {
     log.debug("typeUsername(" + sUsername + ")");
-    //Assert.assertTrue((isUsernameTextFieldDisplayed()), "Username Text Field is NOT displayed on Login Page!");
+    Assert.assertTrue((isUsernameTextFieldDisplayed()), "Username Text Field is NOT displayed on Login Page!");
     //WebElement usernameTextField =  driver.findElement(By.id("username")); // Ovo moze, ali je zavisno od Selenium osnovnih metoda i bolje ubaciti u BasePage-getWebElement
     WebElement usernameTextField = getWebElement(usernameTextFieldLocator);
     //usernameTextField.sendKeys(sUsername); //necemo da se oslanjamo na sendKeys metody u LoginPage klasi, mozda ce da se promeni vec je napravimo u BasePage
@@ -112,11 +115,12 @@ public class LoginPage extends CommonLoggedOutPage {
 
   public String getUsername() {
     log.debug("getUsername()");
+    Assert.assertTrue((isUsernameTextFieldDisplayed()), "Username Text Field is NOT displayed on Login Page!");
     WebElement usernameTextField  = getWebElement(usernameTextFieldLocator); //uvek iznova getujemo element preko lokatora u trenutku kad zelimo sa njim da radimo
     return getValueFromWebElement(usernameTextField); // ako se desi da Selenium ne moze da getuje ovu vredosti ili vrati staru, pozvacemo JS metodu getValueFromWebElementJS
   }
 
-  // PASSWORD
+  // PASSWORD -isDisplayed,type, get
   public boolean isPasswordTextFieldDisplayed() {
     log.debug("isPasswordTextFieldDisplayed()");
     return isWebElementDisplayed(passwordTextFieldLocator);
@@ -124,6 +128,7 @@ public class LoginPage extends CommonLoggedOutPage {
 
   public void typePassword_VoidPrimer(String sPassword) {
     log.debug("typePassword_VoidPrimer(" + sPassword + ")");
+    Assert.assertTrue((isPasswordTextFieldDisplayed()), "Password Text Field is NOT displayed on Login Page!");
     WebElement passwordTextField = getWebElement(passwordTextFieldLocator);
     clearAndTypeTextToWebElement(passwordTextField, sPassword);
   }
@@ -132,6 +137,7 @@ public class LoginPage extends CommonLoggedOutPage {
   // To omogucava method chaining - utackavanje LoginPage.typeUserneme().typePassword().clickLoginButton();
   public LoginPage typePassword(String sPassword) {
     log.debug("typePassword(" + sPassword + ")");
+    Assert.assertTrue((isPasswordTextFieldDisplayed()), "Password Text Field is NOT displayed on Login Page!");
     WebElement passwordTextField = getWebElement(passwordTextFieldLocator);
     clearAndTypeTextToWebElement(passwordTextField, sPassword);
     return this;
@@ -139,11 +145,12 @@ public class LoginPage extends CommonLoggedOutPage {
 
   public String getPassword () {
     log.debug("getPassword()");
+    Assert.assertTrue((isPasswordTextFieldDisplayed()), "Password Text Field is NOT displayed on Login Page!");
     WebElement passwordTextField = getWebElement(passwordTextFieldLocator);
     return getValueFromWebElement(passwordTextField);
   }
 
-  // LOGIN BUTTON
+  // LOGIN BUTTON - isDisplayed,click, getTitle
   // Klik na Login Buton moze da vodi na Welcome page ILI ostajemo na Login ako je login bio neuspesan
   // Zato cemo imati 2 metode - clickLoginButton() i clickLoginButtonNoProgress()
   // Zajednicki deo za ove 2 metode dole cemo da stavimo u PRIVATE metodu, da ne dupliramo kod
@@ -195,6 +202,7 @@ public class LoginPage extends CommonLoggedOutPage {
     return successMessage.isDisplayed();
   }
 
+  // SUCCESS MESSAGE NA LOGIN PAGE - isDisplayed, getText
   // Koristimo opstu metodu isWebElementDisplayed()
   public boolean isSuccessMessageDisplayed () {
     log.debug("isSuccessMessageDisplayed()");
@@ -208,10 +216,20 @@ public class LoginPage extends CommonLoggedOutPage {
     return getTextFromWebElement(successMessage);
   }
 
-  //Metode za ERROR MESSAGE
+  //ERROR MESSAGE NA LOGIN PAGE - isDisplayed, getText
+  public boolean isErrorMessageDisplayed () {
+    log.debug("isErrorMessageDisplayed()");
+    return isWebElementDisplayed(errorMessageLocator);
+  }
 
+  public String getErrorMessage () {
+    log.debug("getErrorMessage()");
+    Assert.assertTrue(isErrorMessageDisplayed()), "Error Message is NOT present on Login Page!");
+    WebElement errorMessage = getWebElement(errorMessageLocator);
+    return getTextFromWebElement(errorMessage);
+  }
 
-  // CREATE ACCOUNT LINK
+  // CREATE ACCOUNT LINK -isDisplayed,click, getTitle
   public boolean isCreateAccountLinkDisplayed() {
     log.debug("isCreateAccountLinkDisplayed()");
     return isWebElementDisplayed(createAccountLinkLocator);
@@ -233,7 +251,7 @@ public class LoginPage extends CommonLoggedOutPage {
     return getTextFromWebElement(createAccountLink);
   }
 
-  // RESET PASSWORD LINK
+  // RESET PASSWORD LINK -isDisplayed,click, getTitle
   public boolean isResetPasswordLinkDisplayed() {
     log.debug("isResetPasswordLinkDisplayed()");
     return isWebElementDisplayed(resetPasswordLinkLocator);
