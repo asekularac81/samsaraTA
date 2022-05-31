@@ -13,7 +13,7 @@ public class HomePage extends CommonLoggedInPage{
   private final String HOME_PAGE_URL=getPageUrl(PageUrlPaths.HOME_PAGE);
 
   //LOKATORI
-  private final By pageTitleLocator = By.xpath("//div[@class='my-jumbotron']/h1)");
+  private final By pageTitleLocator = By.xpath("//div[@class='my-jumbotron']/h1");
 
   //KONSTRUKTOR
   public HomePage(WebDriver driver) {

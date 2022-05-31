@@ -6,6 +6,7 @@ import Pages.APIPage;
 import Pages.AdminPage;
 import Pages.GalleryPage;
 import Pages.HeroesPage;
+import Pages.HomePage;
 import Pages.LoginPage;
 import Pages.PracticePage;
 import Pages.UsersPage;
@@ -46,16 +47,21 @@ public class AdminUserNavigationTest extends BaseTest {
     LoginPage loginPage = new LoginPage(driver).open();
     Assert.assertEquals(loginPage.getPageTitle(), "Samsara", "Wrong page Title on Login Page!");
 
-    log.info("Enter admin username and password. Click Login Button and navigate to Welcome Page");
+    log.info("Enter admin username and password.");
     loginPage.typeUsername(sUserName);
     loginPage.typePassword(sUserPassword);
 
+    log.info("Verify Login Button title, click on Login Button and navigate to Welcome Page");
     Assert.assertEquals(loginPage.getLoginButtonTitle(), CommonStrings.LOGIN_BUTTON_TITLE, "Wrong Login Button Title on Login Page!");
     WelcomePage welcomePage = loginPage.clickLoginButton();
     Assert.assertEquals(welcomePage.getPageTitle(), CommonStrings.WELCOME_PAGE_TITLE, "Wrong page Title on Welcome Page!");
 
+    log.info("Click Home tab, navigate to Home page and verify page Title.");
+    HomePage homePage = welcomePage.clickHomeTab();
+    Assert.assertEquals(homePage.getPageTitle(), CommonStrings.HOME_PAGE_TITLE, "Wrong page Title on Home Page!");
+
     log.info("Click Users tab, navigate to Users page and verify page Title.");
-    UsersPage usersPage = welcomePage.clickUsersTab();
+    UsersPage usersPage = homePage.clickUsersTab();
     Assert.assertEquals(usersPage.getPageTitle(), CommonStrings.USERS_PAGE_TITLE, "Wrong page Title on Users Page!");
 
     log.info("Click Heroes tab, navigate to Heroes page and verify page Title.");
@@ -87,7 +93,7 @@ public class AdminUserNavigationTest extends BaseTest {
     softAssert.assertEquals(adminPage.getAPITabTitle(), CommonStrings.API_TAB_TITLE, "Wrong API Tab Title on Navigation Bar!");
     softAssert.assertEquals(adminPage.getPracticeTabTitle(), CommonStrings.PRACTICE_TAB_TITLE, "Wrong Practice Tab Title on Navigation Bar!");
     softAssert.assertEquals(adminPage.getAdminTabTitle(), CommonStrings.ADMIN_TAB_TITLE, "Wrong Admin Tab Title on Navigation Bar!");
-    softAssert.assertAll("At least one of Tab names on  Navigation Bar is incorrect!");
+    softAssert.assertAll("At least one of Tab names on Navigation Bar is incorrect!");
 
     log.info("Click Log Out Link and navigate to Login page.");
     Assert.assertEquals(adminPage.getLogoutLinkTitle(), CommonStrings.LOGOUT_LINK_TITLE, "Wrong Logout Link Title on Admin Page!");
@@ -98,7 +104,7 @@ public class AdminUserNavigationTest extends BaseTest {
   @AfterMethod(alwaysRun = true)
   public void tearDownTest (ITestResult testResult) {
     log.info("[END TEST] " + sTestName);
-    tearDown(driver, testResult);
+   // tearDown(driver, testResult);
   }
 
 }

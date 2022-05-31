@@ -112,6 +112,14 @@ public class PropertiesUtils extends LoggerUtils {
     return getProperty("rootPassword");
   }
 
+  public static String getUserUsername () {
+    return getProperty("userUsername");
+  }
+
+  public static String getUserPassword () {
+    return getProperty("userPassword");
+  }
+
   public static String getDriversFolder () {
     return getProperty("driversFolders");
   }

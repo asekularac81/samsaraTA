@@ -5,7 +5,7 @@ public final class CommonStrings {
 
   //TITLE
   public static final String WELCOME_PAGE_TITLE = "Hello, and welcome to our gamers page!";
-  public static final String HOME_PAGE_TITLE = "Samsara HomePage";
+  public static final String HOME_PAGE_TITLE = "Samsara Homepage";
   public static final String USERS_PAGE_TITLE = "Users";
   public static final String HEROES_PAGE_TITLE = "Heroes";
   public static final String GALLERY_PAGE_TITLE = "Gallery";
