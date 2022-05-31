@@ -14,6 +14,7 @@ public class CommonPage extends BasePage{
   private final By pageTitleLocator = By.cssSelector(("div.panel-title"));
   //private final By pageTitleLocator = By.xpath(("//div[@class='panel-heading']//div[contains(@class,'panel-title')]"));
 
+  // KONSTRUKTOR
   public CommonPage(WebDriver driver) {
     super(driver);
   }

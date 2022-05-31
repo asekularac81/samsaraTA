@@ -8,6 +8,7 @@ public class WelcomePage extends CommonLoggedInPage {
 
   private final String WELCOME_PAGE_URL = getPageUrl(PageUrlPaths.WELCOME_PAGE); // iz property fajla uzme baseURL i nakalemi relativnu putanju za tu stranicu
 
+  // KONSTRUKTOR
   public WelcomePage(WebDriver driver) {
     super(driver);
     log.trace("new WelcomePage()");

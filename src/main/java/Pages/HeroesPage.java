@@ -8,6 +8,7 @@ public class HeroesPage extends CommonLoggedInPage {
 
   private final String HEROES_PAGE_URL=getPageUrl(PageUrlPaths.HEROES_PAGE);
 
+  // KONSTRUKTOR
   public HeroesPage(WebDriver driver) {
     super(driver);
     log.trace("new HeroesPage()");

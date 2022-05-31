@@ -8,6 +8,7 @@ public class APIPage extends CommonLoggedInPage{
 
   private final String API_PAGE_URL = getPageUrl(PageUrlPaths.API_PAGE);
 
+  // KONSTRUKTOR
   public APIPage(WebDriver driver) {
     super(driver);
     log.debug("new APIPage()");

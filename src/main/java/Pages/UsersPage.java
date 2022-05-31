@@ -8,6 +8,7 @@ public class UsersPage extends CommonLoggedInPage {
 
   private final String USERS_PAGE_URL = getPageUrl(PageUrlPaths.USERS_PAGE);
 
+  // KONSTRUKTOR
   public UsersPage(WebDriver driver) {
     super(driver);
     log.trace("new UsersPage()");

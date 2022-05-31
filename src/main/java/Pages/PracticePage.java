@@ -8,6 +8,7 @@ public class PracticePage extends CommonLoggedInPage{
 
   private final String PRACTICE_PAGE_URL= getPageUrl(PageUrlPaths.PRACTICE_PAGE);
 
+  // KONSTRUKTOR
   public PracticePage(WebDriver driver) {
     super(driver);
     log.trace("new PracticePage()");

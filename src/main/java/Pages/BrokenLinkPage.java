@@ -8,6 +8,7 @@ public class BrokenLinkPage extends CommonLoggedInPage {
 
   private final String BROKEN_LINK_PAGE=getPageUrl(PageUrlPaths.BROKEN_LINK_PAGE);
 
+  // KONSTRUKTOR
   public BrokenLinkPage(WebDriver driver) {
     super(driver);
     log.trace("new BrokenLinkPage()");

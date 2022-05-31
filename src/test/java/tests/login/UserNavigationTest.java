@@ -3,7 +3,6 @@ package tests.login;
 import Data.CommonStrings;
 import Data.Groups;
 import Pages.APIPage;
-import Pages.AdminPage;
 import Pages.GalleryPage;
 import Pages.HeroesPage;
 import Pages.HomePage;

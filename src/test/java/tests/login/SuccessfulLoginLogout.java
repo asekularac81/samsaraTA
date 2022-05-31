@@ -47,19 +47,29 @@ public class SuccessfulLoginLogout extends BaseTest {
   public void testSuccessfulLoginLogout() {
 
     log.info("[START TEST] " + sTestName);
+    String sExpectedLogoutSuccessMessage = CommonStrings.LOGOUT_SUCCESS_MESSAGE;
+
     DateTimeUtils.wait(Time.DEMO_TIMEOUT);
+
+    log.info("Open Login page, type username and password.");
     LoginPage loginPage = new LoginPage(driver).open();
 
     loginPage.typeUsername(sUserName);
     loginPage.typePassword(sUserPassword);
 
+    log.info("Click Login Button and navigate to Welcome Page.");
     WelcomePage welcomePage = loginPage.clickLoginButton();
+
+    log.info("Click Logout link and verify Logout success message on Welcome Page.");
     loginPage = welcomePage.clickLogoutLink();
+    String sSuccessMessage = loginPage.getSuccessMessage();
+    Assert.assertEquals(sSuccessMessage, sExpectedLogoutSuccessMessage, "Wrong Logout Success Message!");
+
   }
 
   @AfterMethod(alwaysRun = true)
   public void tearDownTest (ITestResult testResult) {
     log.info("[END TEST] " + sTestName);
-    tearDown(driver, testResult);
+    //tearDown(driver, testResult);
   }
 }

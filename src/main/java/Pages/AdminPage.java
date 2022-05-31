@@ -8,6 +8,7 @@ public class AdminPage extends CommonLoggedInPage{
 
   private final String ADMIN_PAGE_URL = getPageUrl(PageUrlPaths.ADMIN_PAGE);
 
+  // KONSTRUKTOR
   public AdminPage (WebDriver driver) {
     super(driver);
     log.trace("new AdminPage()");

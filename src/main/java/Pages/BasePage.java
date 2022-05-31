@@ -23,6 +23,7 @@ public abstract class BasePage extends LoggerUtils {
 
   protected WebDriver driver;
 
+  // KONSTRUKTOR
   public BasePage(WebDriver driver) {
     Assert.assertFalse(WebDriverUtils.hasDriverQuit(driver), "Driver instance has quit!");
     this.driver = driver;
