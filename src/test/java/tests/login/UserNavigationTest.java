@@ -71,7 +71,7 @@ public class UserNavigationTest extends BaseTest {
     GalleryPage galleryPage = usersPage.clickGalleryTab();
     Assert.assertEquals(galleryPage.getPageTitle(), CommonStrings.GALLERY_PAGE_TITLE, "Wrong page Title on Gallery Page!");
 
-    log.info("Click Gallery tab, navigate to API page and verify page Title.");
+    log.info("Click API tab, navigate to API page and verify page Title.");
     APIPage apiPage = galleryPage.clickAPITab();
     Assert.assertEquals(apiPage.getPageTitle(), CommonStrings.API_PAGE_TITLE, "Wrong page Title on API Page!");
 
