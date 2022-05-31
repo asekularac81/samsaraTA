@@ -2,15 +2,7 @@ package tests.login;
 
 import Data.CommonStrings;
 import Data.Time;
-import Pages.APIPage;
-import Pages.AdminPage;
-import Pages.BrokenLinkPage;
-import Pages.GalleryPage;
-import Pages.HeroesPage;
-import Pages.HomePage;
 import Pages.LoginPage;
-import Pages.PracticePage;
-import Pages.UsersPage;
 import Pages.WelcomePage;
 import Utils.DateTimeUtils;
 import Utils.PropertiesUtils;
@@ -32,7 +24,7 @@ public class SuccessfulLoginLogout extends BaseTest {
   private WebDriver driver;
 
   private String sUserName;
-  private String sUserPassword;
+  private String sPassword;
 
   //U Before Method generisemo podatke o userima jer to nema veze sa koracima testa, da ako padne test padne zbog ficera koji testira a ne pripreme
   @BeforeMethod
@@ -40,7 +32,7 @@ public class SuccessfulLoginLogout extends BaseTest {
     log.info("[SETUP TEST] " + sTestName );
     driver = setupDriver();
     sUserName = PropertiesUtils.getAdminUsername();
-    sUserPassword = PropertiesUtils.getAdminPassword();
+    sPassword = PropertiesUtils.getAdminPassword();
   }
 
   @Test
@@ -51,14 +43,16 @@ public class SuccessfulLoginLogout extends BaseTest {
 
     DateTimeUtils.wait(Time.DEMO_TIMEOUT);
 
+
     log.info("Open Login page and verify there is no Success or Error message.");
     LoginPage loginPage = new LoginPage(driver).open();
+    //ovo proverimo samo u jednom testu da po defaultu nema greska ili poruka
     Assert.assertFalse(loginPage.isSuccessMessageDisplayed(),"Success Message should NOT be displayed!");
     Assert.assertFalse(loginPage.isErrorMessageDisplayed(),"Error Message should NOT be displayed!");
 
     log.info("Type username and password.");
     loginPage.typeUsername(sUserName);
-    loginPage.typePassword(sUserPassword);
+    loginPage.typePassword(sPassword);
 
     log.info("Click Login Button and navigate to Welcome Page.");
     WelcomePage welcomePage = loginPage.clickLoginButton();
