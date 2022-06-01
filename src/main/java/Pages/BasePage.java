@@ -13,6 +13,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
@@ -28,6 +29,7 @@ public abstract class BasePage extends LoggerUtils {
   public BasePage(WebDriver driver) {
     Assert.assertFalse(WebDriverUtils.hasDriverQuit(driver), "Driver instance has quit!");
     this.driver = driver;
+    PageFactory.initElements(driver, this);
   }
 
   protected String getPageUrl(String sPath) {
@@ -252,7 +254,8 @@ public abstract class BasePage extends LoggerUtils {
   //------------------------------------------------------------------------------------------------------------------
 
   // DISPLAYED
-  // Wrapovana opsta metoda koja  ako element ne postoji vrati false umesto ne da pukne kako bi mogla da se koristi i za negativan scenario.
+  // Wrapovana opsta metoda koja  ako element ne postoji vrati false umesto da pukne
+  // kako bi mogla da se koristi i za negativan scenario.
   protected boolean isWebElementDisplayed (By locator) {
     log.debug("isWebElementDisplayed()");
     try {
@@ -263,6 +266,19 @@ public abstract class BasePage extends LoggerUtils {
       return false;
     }
   }
+
+  // Overload metode isWebElementDisplayed(locator) koja prima WebElement (za Page Factory)
+  protected boolean isWebElementDisplayed (WebElement element) {
+    log.debug("isWebElementDisplayed()");
+    try {
+      return element.isDisplayed();
+    }
+    catch (Exception e) {
+      return false;
+    }
+  }
+
+  //------------------------------------------------------------------------------------------------------------------
 
   //Izdvajamo u BasePage Selenium metodu za kucanje texta - ako bude izmena da se ne odrazava u svim Page klasama vec samo ovde
   protected void typeTextToWebElement(WebElement element, String text) {

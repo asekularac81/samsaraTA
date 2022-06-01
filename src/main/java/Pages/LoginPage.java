@@ -22,7 +22,7 @@ public class LoginPage extends CommonLoggedOutPage {
   // FINAL - da niko ne moze da ih dalje menja
 
   // PRIMER SA LOKATORIMA (NE koristimo PageFactory)
-  // Ovo su lokatori a webelemente cemo dohvatiti u samoj metodi - neposredno pred koristenje
+  // Ovo su lokatori ka webelementima koje cemo dohvatiti u samoj metodi - neposredno pred koristenje
   // Naming konvencija:
   // Sta radi element/ Tip elementa / Locator (ako je WebElement onda nista)
   private final By usernameTextFieldLocator = By.id("username");
