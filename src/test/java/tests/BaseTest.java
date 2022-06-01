@@ -30,7 +30,6 @@ public class BaseTest extends LoggerUtils {
         //take screenshot
         log.warn("Test " + sTestName + " has failed");
       }
-      Assert.fail("padanje");
     } catch (AssertionError | Exception e) {
       log.error("Exception occurred in tearDown(" + sTestName + "). Message:" + e.getMessage());
     }

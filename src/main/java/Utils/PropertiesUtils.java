@@ -96,6 +96,10 @@ public class PropertiesUtils extends LoggerUtils {
     return getProperty("locale");
   }
 
+  public static String getTakeScreenshot() {
+    return getProperty("takeScreenshot");
+  }
+
   public static String getAdminUsername () {
     return getProperty("adminUsername");
   }
@@ -122,5 +126,9 @@ public class PropertiesUtils extends LoggerUtils {
 
   public static String getDriversFolder () {
     return getProperty("driversFolders");
+  }
+
+  public static String getScreenshotsFolder () {
+    return getProperty("screenshotsFolder");
   }
 }
