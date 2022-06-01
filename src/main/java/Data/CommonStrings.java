@@ -13,8 +13,36 @@ public final class CommonStrings {
 
   // Ovde pravimo varijablu za svaki string koja se mapira sa key u locale_en.loc property fajlu
   // ako pogresimo dobicemo gresku: String LOGIN_ERROR doesn't exist in file locale_en.loc! expected object to not be null
+
+  //APP STRINGS
   public static final String LOGIN_ERROR_MESSAGE = "LOGIN_ERROR_MESSAGE";
   public static final String LOGOUT_SUCCESS_MESSAGE = "LOGOUT_SUCCESS_MESSAGE";
+
+  //PAGE TITLES
+  public static final String LOGIN_PAGE_TITLE = "LOGIN_PAGE_TITLE";
+  public static final String WELCOME_PAGE_TITLE = "WELCOME_PAGE_TITLE";
+  public static final String HOME_PAGE_TITLE = "HOME_PAGE_TITLE";
+  public static final String USERS_PAGE_TITLE = "USERS_PAGE_TITLE";
+  public static final String HEROES_PAGE_TITLE = "HEROES_PAGE_TITLE";
+  public static final String GALLERY_PAGE_TITLE = "GALLERY_PAGE_TITLE";
+  public static final String API_PAGE_TITLE = "API_PAGE_TITLE";
+  public static final String PRACTICE_PAGE_TITLE = "PRACTICE_PAGE_TITLE";
+  public static final String ADMIN_PAGE_TITLE = "ADMIN_PAGE_TITLE";
+
+  //TAB TITLES
+  public static final String HOME_TAB_TITLE = "HOME_TAB_TITLE";
+  public static final String USERS_TAB_TITLE = "USERS_TAB_TITLE";
+  public static final String HEROES_TAB_TITLE = "HEROES_TAB_TITLE";
+  public static final String GALLERY_TAB_TITLE = "GALLERY_TAB_TITLE";
+  public static final String API_TAB_TITLE = "API_TAB_TITLE";
+  public static final String PRACTICE_TAB_TITLE = "PRACTICE_TAB_TITLE";
+  public static final String ADMIN_TAB_TITLE = "ADMIN_TAB_TITLE";
+
+  //BUTTON TITLES
+  public static final String LOGIN_BUTTON_TITLE = "LOGIN_BUTTON_TITLE";
+
+  //LINK TITLES
+  public static final String LOGOUT_LINK_TITLE = "LOGOUT_LINK_TITLE";
 
   // Kad se inicijalizuje CommonStrings klasa odmah ce da se iz locale_en.loc fila u Properties mapu upucaju svi parovi kljuc:vrednost
   public static final Properties locale = PropertiesUtils.loadPropertiesFile(sLocalePath);
@@ -40,33 +68,23 @@ public final class CommonStrings {
   }
 
   //Ovo je kako smo poceli dok nismo imali podrsku za lokalizaciju
-  //public static final String LOGOUT_SUCCESS_MESSAGE = "You have been logged out.";
-  //public static final String LOGIN_ERROR_MESSAGE = "Invalid username and password.";
+  //  public static final String LOGOUT_SUCCESS_MESSAGE = "You have been logged out.";
+  // public static final String LOGIN_ERROR_MESSAGE = "Invalid username and password.";
 
-  //PAGE TITLES
-  public static final String LOGIN_PAGE_TITLE = "Samsara";
-  public static final String WELCOME_PAGE_TITLE = "Hello, and welcome to our gamers page!";
-  public static final String HOME_PAGE_TITLE = "Samsara Homepage";
-  public static final String USERS_PAGE_TITLE = "Users";
-  public static final String HEROES_PAGE_TITLE = "Heroes";
-  public static final String GALLERY_PAGE_TITLE = "Gallery";
-  public static final String API_PAGE_TITLE = "API Documentation";
-  public static final String PRACTICE_PAGE_TITLE = "Practice";
-  public static final String ADMIN_PAGE_TITLE = "Hey there admin!";
+  // PAGE TITLES
+  // public static final String LOGIN_PAGE_TITLE = "Samsara";
+  //  public static final String WELCOME_PAGE_TITLE = "Hello, and welcome to our gamers page!";
 
-  //TAB TITLES
-  public static final String HOME_TAB_TITLE = "Home";
-  public static final String USERS_TAB_TITLE = "Users";
-  public static final String HEROES_TAB_TITLE = "Heroes";
-  public static final String GALLERY_TAB_TITLE = "Gallery";
-  public static final String API_TAB_TITLE = "API";
-  public static final String PRACTICE_TAB_TITLE = "Practice";
-  public static final String ADMIN_TAB_TITLE = "Admin";
 
-  //BUTTON TITLES
-  public static final String LOGIN_BUTTON_TITLE = "Log In";
+  // TAB TITLES
+  //  public static final String HOME_TAB_TITLE = "Home";
+  //  public static final String USERS_TAB_TITLE = "Users";
+  //  public static final String HEROES_TAB_TITLE = "Heroes";
 
-  //LINK TITLES
-  public static final String LOGOUT_LINK_TITLE = "Log Out";
+  // BUTTON TITLES
+  // public static final String LOGIN_BUTTON_TITLE = "Log In";
+
+  // LINK TITLES
+  // public static final String LOGOUT_LINK_TITLE = "Log Out";
 
 }

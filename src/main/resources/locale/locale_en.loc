@@ -1,6 +1,33 @@
 # pravimo file tipa .properties da bi imali par kljuc (jedinstveni naziv stringa) i vrednost (na datom jeziku).
 # moze i .txt
 
+#PAGE TITLES
+LOGIN_PAGE_TITLE = Samsara
+WELCOME_PAGE_TITLE = Hello, and welcome to our gamers page!
+HOME_PAGE_TITLE = Samsara Homepage
+USERS_PAGE_TITLE = Users
+HEROES_PAGE_TITLE = Heroes
+GALLERY_PAGE_TITLE = Gallery
+API_PAGE_TITLE = API Documentation
+PRACTICE_PAGE_TITLE = Practice
+ADMIN_PAGE_TITLE = Hey there admin!
+
+//TAB TITLES
+HOME_TAB_TITLE = Home
+USERS_TAB_TITLE = Users
+HEROES_TAB_TITLE = Heroes
+GALLERY_TAB_TITLE = Gallery
+API_TAB_TITLE = API
+PRACTICE_TAB_TITLE = Practice
+ADMIN_TAB_TITLE = Admin
+
+//BUTTON TITLES
+LOGIN_BUTTON_TITLE = Log In
+
+//LINK TITLES
+LOGOUT_LINK_TITLE = Log Out
+
+
 # LOGIN PAGE
 LOGOUT_SUCCESS_MESSAGE = You have been logged out.
 LOGIN_ERROR_MESSAGE = Invalid username and password.
