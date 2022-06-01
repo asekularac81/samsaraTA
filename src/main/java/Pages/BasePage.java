@@ -3,6 +3,7 @@ package Pages;
 import java.time.Duration;
 import java.util.function.Function;
 
+import Data.Time;
 import Utils.LoggerUtils;
 import Utils.PropertiesUtils;
 import Utils.WebDriverUtils;
@@ -146,7 +147,112 @@ public abstract class BasePage extends LoggerUtils {
     return  wait.until(ExpectedConditions.elementToBeClickable(element));  // ima i varijanta da prosledis lokator ali mi cemo opciju sa prosledjenim WebElementom
   }
 
-  //Wrapovana opsta metoda koja  ako element ne postoji vrati false umesto ne da pukne kako bi mogla da se koristi i za negativan scenario.
+  //------------------------------------------------------------------------------------------------------------------
+
+  // VISIBLE
+  // Metode koje cekaju da nesto postane vidljivo/nevidljivo
+  // WAIT for element to be VISIBLE (2) - preko locatora, preko WebElementa
+  // timeout-vreme koje cekamo da od nevidljivosti postane vidljiv\
+  // dole imamo wrapere koji proveravaju jel vidljivo/nevidljivo-boolean
+
+  // preko locatora, korisna bez PageFactory-a. vrati WebElement
+  protected WebElement waitForElementToBeVisible(By locator, int timeOut) {
+    log.trace("waitForElementToBeVisible(" + locator + "," + timeOut + ")");
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+    return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)); //da opipamo da li uopste postoji pomocu lokatora, sacekamo ga i ako postoji da vratimo WebElement
+  }
+
+  // preko WebElementa, korisna za PageFactory. WebElement smo vec dohvatili, samo da vidimo jel visible
+  protected WebElement waitForElementToBeVisible(WebElement element, int timeOut) {
+    log.trace("waitForElementToBeVisible(" + element + "," + timeOut + ")");
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+    return wait.until(ExpectedConditions.visibilityOf(element)); //vrati WebElement
+  }
+
+  // WAIT for element to be INVISIBLE (2) - preko locatora, preko WebElementa
+  protected boolean waitForElementToBeInvisible(By locator, int timeOut) {
+    log.trace("waitForElementToBeInvisible(" + locator + "," + timeOut + ")");
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+    return wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));  //vrati boolean jer invisibilityOfElementLocated ne vraca WebElement
+  }
+
+  protected boolean waitForElementToBeInvisible(WebElement element, int timeOut) {
+    log.trace("waitForElementToBeInvisible(" + element + "," + timeOut + ")");
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+    return wait.until(ExpectedConditions.invisibilityOf(element)); //vrati boolean jer invisibilityOf ne vraca WebElement
+  }
+
+  // Metode koje proveravaju da li je nesto vidljivo/nevidljivo
+  // mora da se koristi explicit  wait jer implicit wait proverava samo dal je prisutan ali ne
+  // dok da li je clickable, visible - za to moras explicit wait
+  // Visible, preko lokatora
+  protected boolean isWebElementVisible(By locator, int timeOut) {
+    log.trace("isWebElementVisible(" + locator + "," + timeOut + ")");
+    try {
+      waitForElementToBeVisible(locator,timeOut);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+
+  // Overload metode iznad samo sa predefinisanim wait-om
+  protected boolean isWebElementVisible(By locator) {
+    return isWebElementVisible(locator, Time.TIME_SHORTER);
+  }
+
+  // Visible, preko webElementa
+  protected boolean isWebElementVisible(WebElement element, int timeOut) {
+    log.trace("isWebElementVisible(" + element + "," + timeOut + ")");
+    try {
+      waitForElementToBeVisible(element,timeOut);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+
+  // Overload metode iznad samo sa predefinisanim wait-om
+  protected boolean isWebElementVisible(WebElement element) {
+    return isWebElementVisible(element, Time.TIME_SHORTER);
+  }
+
+  // Invisible, preko lokatora
+  protected boolean isWebElementInvisible(By locator, int timeOut) {
+    log.trace("isWebElementInvisible(" + locator + "," + timeOut + ")");
+    try {
+      waitForElementToBeVisible(locator,timeOut);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+
+  // Overload metode iznad samo sa predefinisanim wait-om
+  protected boolean isWebElementInvisible(By locator) {
+    return isWebElementVisible(locator, Time.TIME_SHORTER);
+  }
+
+  // Invisible, preko webelementa
+  protected boolean isWebElementInvisible(WebElement element, int timeOut) {
+    log.trace("isWebElementInvisible(" + element + "," + timeOut + ")");
+    try {
+      waitForElementToBeVisible(element,timeOut);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+
+  // Overload metode iznad samo sa predefinisanim wait-om
+  protected boolean isWebElementInvisible(WebElement element) {
+    return isWebElementVisible(element, Time.TIME_SHORTER);
+  }
+
+  //------------------------------------------------------------------------------------------------------------------
+
+  // DISPLAYED
+  // Wrapovana opsta metoda koja  ako element ne postoji vrati false umesto ne da pukne kako bi mogla da se koristi i za negativan scenario.
   protected boolean isWebElementDisplayed (By locator) {
     log.debug("isWebElementDisplayed()");
     try {
