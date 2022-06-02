@@ -26,6 +26,8 @@ public abstract class BasePage extends LoggerUtils {
   protected WebDriver driver;
 
   // KONSTRUKTOR
+  // Ovde cemo da pozovemo staticku metodu koja inicira sve WebElemenete koji su definisani sa @FindBy
+  // I onda ne moremo da je pozivamo u ostalim Page klasama
   public BasePage(WebDriver driver) {
     Assert.assertFalse(WebDriverUtils.hasDriverQuit(driver), "Driver instance has quit!");
     this.driver = driver;
