@@ -75,7 +75,6 @@ public final class CommonStrings {
   // public static final String LOGIN_PAGE_TITLE = "Samsara";
   //  public static final String WELCOME_PAGE_TITLE = "Hello, and welcome to our gamers page!";
 
-
   // TAB TITLES
   //  public static final String HOME_TAB_TITLE = "Home";
   //  public static final String USERS_TAB_TITLE = "Users";
