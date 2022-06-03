@@ -199,14 +199,14 @@ public class RegisterPage extends CommonLoggedOutPage{
   public RegisterPage typeSecretQuestion(String sSecretQuestion) {
     log.debug("typeSecretQuestion(" + sSecretQuestion + ")");
     Assert.assertTrue(isSecretQuestionTextFieldDisplayed(), "'Secret Question' Text Field is NOT displayed on Register page!");
-    clearAndTypeTextToWebElement(secretAnswerTextField, sSecretQuestion);
+    clearAndTypeTextToWebElement(secretQuestionTextField, sSecretQuestion);
     return this;
   }
 
   public String getSecretQuestion() {
     log.debug("getSecretQuestion()");
     Assert.assertFalse(isSecretQuestionTextFieldDisplayed(), "'Secret Question' Text Field is NOT displayed on Register page!");
-    return getValueFromWebElement(secretAnswerTextField);
+    return getValueFromWebElement(secretQuestionTextField);
   }
   //--------------------------------------------------------------------------------------------------------------------------------------------
 
