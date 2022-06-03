@@ -28,11 +28,23 @@ public class SuccessfulRegister extends BaseTest {
 
     log.info("[START TEST] " + sTestName);
 
-    log.info("Open Login page and login as Admin user.");
+    log.info("Open Login page and click 'Create Account' link");
     LoginPage loginPage = new LoginPage(driver).open();
     RegisterPage registerPage = loginPage.clickCreateAccountLink();
 
-    registerPage.typeUsername("blabla");
+    log.info("Enter all text fields on Register Page");
+    registerPage.typeUsername("ladybug");
+    registerPage.typeFirstName("Lady");
+    registerPage.typeLastName("Bug");
+    registerPage.typeEmail("hello@gmail.com");
+    registerPage.typeAbout("Something about me.");
+    registerPage.typeSecretQuestion("What is your favorite colour");
+    registerPage.typeSecretAnswer("Red");
+    registerPage.typePassword("password123!@#");
+    registerPage.typeConfirmPassword("password123!@#");
+
+    log.info("Click Sign up and verify Welcome page is opened.");
+
   }
 
   @AfterMethod(alwaysRun = true)

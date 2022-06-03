@@ -12,40 +12,47 @@ public class RegisterPage extends CommonLoggedOutPage{
   // PAGE URL PATHS
   private final String REGISTER_PAGE_URL = getPageUrl(PageUrlPaths.REGISTER_PAGE);
 
-  // LOCATORS
-  // Ovde cemo da koristimo PAGE FACTORY i to je potpuni POM
-  // Implementira se:
+  // PAGE FACTORY LOCATORS
+  // Ovde cemo da koristimo PAGE FACTORY i to je potpuni POM. Implementira se:
   // Webelementi se definisu sa sa anotacijom @FindBy (xpath/id/name...)
-  // staticka metoda koja inicijalizuje webelemente PageFactory.initElements(driver,this);
+  // Staticka metoda koja inicijalizuje webelemente PageFactory.initElements(driver,this);
 
   // WebElement se trazi tek kad zelimo da mu pristupimo (izbegavamo StaleElement Reference)
-  // Ako je los xptah nece puci prilikom inicijalizacije strenice vec samo ako pokusamo interakciju sa WebElementom
+  // Ako je los xpath nece puci prilikom inicijalizacije strenice vec samo ako pokusamo interakciju sa WebElementom
+
+  // Prednosti: brze i lakse dohvatanje elementa, izbegavamo StaleElement reference
+  // Mane:
+  // @FindBy proverava samo da li element postoji/ne postoji a ne moze da proveri jel visible ili ne
+  // Ispod haube koristi implicit wait ( ovde nam je 3 sec).
+  // Nije dobar za elemente koje treba duze da cekamo - takvih ima manje i za njih cemo da koristimo By.locator i metode waitUntilPresenceOfWebelement
+  // Nije dobar za elemente koji se dinamicki pojavljuju na stranicama (pretraga tabela). u tomu slucaju celu tabelu lociramo preko PF a pojedinacne elemente pomocu findElement
+
   @FindBy (id="username")
-  WebElement usernameTextField;
+  private WebElement usernameTextField;
 
   @FindBy (id="firstName")
-  WebElement firstNameTextField;
+  private WebElement firstNameTextField;
 
   @FindBy (id="lastName")
-  WebElement lastNameTextField;
+  private WebElement lastNameTextField;
 
   @FindBy (id="email")
-  WebElement emailTextField;
+  private WebElement emailTextField;
 
   @FindBy (id="about")
-  WebElement aboutTextField;
+  private WebElement aboutTextField;
 
   @FindBy (id="secretQuestion")
-  WebElement secretQuestionTextField;
+  private WebElement secretQuestionTextField;
 
   @FindBy (id="secretAnswer")
-  WebElement secretAnswerTextField;
+  private WebElement secretAnswerTextField;
 
   @FindBy (id="password")
-  WebElement passwordTextField;
+  private WebElement passwordTextField;
 
   @FindBy (id="repassword")
-  WebElement confirmPasswordTextField;
+  private WebElement confirmPasswordTextField;
 
 
   // KONSTRUKTOR
@@ -128,8 +135,8 @@ public class RegisterPage extends CommonLoggedOutPage{
 
   public RegisterPage  typeLastName(String sLastName) {
     log.debug("typeLastName(" + sLastName + ")");
-    Assert.assertTrue(isFirstNameTextFieldDisplayed(), "'First Name' Text Field is NOT displayed on Register page!");
-    clearAndTypeTextToWebElement(firstNameTextField, sLastName);
+    Assert.assertTrue(isLastNameTextFieldDisplayed(), "'Last Name' Text Field is NOT displayed on Register page!");
+    clearAndTypeTextToWebElement(lastNameTextField, sLastName);
     return this;
   }
 
@@ -191,14 +198,14 @@ public class RegisterPage extends CommonLoggedOutPage{
 
   public RegisterPage typeSecretQuestion(String sSecretQuestion) {
     log.debug("typeSecretQuestion(" + sSecretQuestion + ")");
-    Assert.assertTrue(isAboutTextFieldDisplayed(), "'Secret Question' Text Field is NOT displayed on Register page!");
+    Assert.assertTrue(isSecretQuestionTextFieldDisplayed(), "'Secret Question' Text Field is NOT displayed on Register page!");
     clearAndTypeTextToWebElement(secretAnswerTextField, sSecretQuestion);
     return this;
   }
 
   public String getSecretQuestion() {
     log.debug("getSecretQuestion()");
-    Assert.assertFalse(isAboutTextFieldDisplayed(), "'Secret Question' Text Field is NOT displayed on Register page!");
+    Assert.assertFalse(isSecretQuestionTextFieldDisplayed(), "'Secret Question' Text Field is NOT displayed on Register page!");
     return getValueFromWebElement(secretAnswerTextField);
   }
   //--------------------------------------------------------------------------------------------------------------------------------------------
@@ -218,8 +225,50 @@ public class RegisterPage extends CommonLoggedOutPage{
 
   public String getSecretAnswer() {
     log.debug("getSecretAnswer()");
-    Assert.assertFalse(isAboutTextFieldDisplayed(), "'Secret Answer' Text Field is NOT displayed on Register page!");
+    Assert.assertFalse(isSecretAnswerTextFieldDisplayed(), "'Secret Answer' Text Field is NOT displayed on Register page!");
     return getValueFromWebElement(secretAnswerTextField);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------------------------------
+
+  // PASSWORD TEXT FIELD - isDisplayed, type, getText
+  public boolean isPasswordTextFieldDisplayed() {
+    log.debug("isPasswordTextFieldDisplayed()");
+    return isWebElementDisplayed(passwordTextField);
+  }
+
+  public RegisterPage typePassword(String sPassword) {
+    log.debug("typePassword(" + sPassword + ")");
+    Assert.assertTrue(isPasswordTextFieldDisplayed(), "'Password' Text Field is NOT displayed on Register page!");
+    clearAndTypeTextToWebElement(passwordTextField, sPassword);
+    return this;
+  }
+
+  public String getPassword() {
+    log.debug("getPassword()");
+    Assert.assertFalse(isPasswordTextFieldDisplayed(), "'Password' Text Field is NOT displayed on Register page!");
+    return getValueFromWebElement(passwordTextField);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------------------------------
+
+  // CONFIRM PASSWORD TEXT FIELD - isDisplayed, type, getText
+  public boolean isConfirmPasswordTextFieldDisplayed() {
+    log.debug("isConfirmPasswordTextFieldDisplayed()");
+    return isWebElementDisplayed(confirmPasswordTextField);
+  }
+
+  public RegisterPage typeConfirmPassword(String sConfirmPassword) {
+    log.debug("typeConfirmPassword(" + sConfirmPassword + ")");
+    Assert.assertTrue(isConfirmPasswordTextFieldDisplayed(), "'Confirm Password' Text Field is NOT displayed on Register page!");
+    clearAndTypeTextToWebElement(confirmPasswordTextField, sConfirmPassword);
+    return this;
+  }
+
+  public String getConfirmPassword() {
+    log.debug("getConfirmPassword()");
+    Assert.assertFalse(isConfirmPasswordTextFieldDisplayed(), "'Confirm Password' Text Field is NOT displayed on Register page!");
+    return getValueFromWebElement(confirmPasswordTextField);
   }
 
   //--------------------------------------------------------------------------------------------------------------------------------------------
