@@ -20,7 +20,9 @@ import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-//BasePage extenduje LoggerUtils da bi logovanje bilo centralizovano.
+// U BasePage klasi handlujemo sve osnovne Selenium metode, pa ako se depreactuju menjamo samo tu a ne diramo  Pages klase
+
+//BasePage extenduje LoggerUtils da bi logovanje bilo centralizovano
 public abstract class BasePage extends LoggerUtils {
 
   protected WebDriver driver;
@@ -34,6 +36,9 @@ public abstract class BasePage extends LoggerUtils {
     PageFactory.initElements(driver, this);
   }
 
+  //-----------------------------------------------------------------------------------------------
+  // PAGE URL - getUrl, waitForUrlChange, openURL
+
   protected String getPageUrl(String sPath) {
     log.trace("getPageUrl(" + sPath + ")");
     return PropertiesUtils.getBaseUrl() + sPath;
@@ -45,7 +50,7 @@ public abstract class BasePage extends LoggerUtils {
   }
 
   // cekamo da se promeni URL - contains
-  // vraca boolean T/PUCA ako nije - sa lepom greskom
+  // vraca boolean T/PUCA ako nije - sa lepom greskom:
   // org.openqa.selenium.TimeoutException: Expected condition failed: waiting for url to contain "http://18.219.75.209:8080/home".
   // Current url: "http://18.219.75.209:8080/login" (tried for 5 second(s) with 500 milliseconds interval)
   // u ovom slucaju nam ne treba assert kad je pozivamo jer se zna da ce puci ako nije promenjen URL ali sa lepom greskom
@@ -91,20 +96,23 @@ public abstract class BasePage extends LoggerUtils {
     driver.get(url);
   }
 
-  // cekamo da se ucita DOM struktura
+  // Cekamo da se ucita DOM struktura
   protected boolean waitUntilPageIsReady(int timeOut) {
     log.trace("waitUntilPageIsReady(" + timeOut + ")");
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
     return wait.until(driver1 -> ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete"));
   }
 
-  // Cilj je da sve osnovne Selenium metode handlujemo u BasePage klasi pa ako se depreactuju menjamu tu a ne diramo nase Pages klase
-  // dohvatanje elementa preko lokatora
+  //-----------------------------------------------------------------------------------------------
+  // DOHVATANJE WEB ELEMENATA
+
+  // Dohvatanje elementa preko By lokatora
   protected WebElement getWebElement(By locator) {
     log.trace("getWebElement(" + locator + ")");
     return driver.findElement(locator);
   }
 
+  // Overload
   // Ako moramo da cekamo da se element pojavi, pravimo overloadovanu metodu sa timeOut-om
   // koristimo WebDriverWait koji proverava na 500 milisecss - explicit wait
   protected WebElement getWebElement(By locator, int timeOut) {
@@ -144,7 +152,7 @@ public abstract class BasePage extends LoggerUtils {
     return element;
   }
 
-  //metoda koja saceka da el bude klikabilan i VRATI element!
+  // Metoda koja saceka da el bude klikabilan i VRATI element!
   protected WebElement waitForElementToBeClickable(WebElement element, int timeOut) {
     log.trace("waitForElementToBeClickable(" + element + "," + timeOut + ")");
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
@@ -156,7 +164,7 @@ public abstract class BasePage extends LoggerUtils {
   // VISIBLE
   // Metode koje cekaju da nesto postane vidljivo/nevidljivo
   // WAIT for element to be VISIBLE (2) - preko locatora, preko WebElementa
-  // timeout-vreme koje cekamo da od nevidljivosti postane vidljiv\
+  // timeout-vreme koje cekamo da od nevidljivosti postane vidljiv
   // dole imamo wrapere koji proveravaju jel vidljivo/nevidljivo-boolean
 
   // preko locatora, korisna bez PageFactory-a. vrati WebElement
@@ -282,7 +290,7 @@ public abstract class BasePage extends LoggerUtils {
 
   //------------------------------------------------------------------------------------------------------------------
 
-  //Izdvajamo u BasePage Selenium metodu za kucanje texta - ako bude izmena da se ne odrazava u svim Page klasama vec samo ovde
+  // KUCANJE TEXTA - type, clearAndType, getText
   protected void typeTextToWebElement(WebElement element, String text) {
     log.trace("typeTextToWebElement(" + element + "," + text +")");
     element.sendKeys(text);
@@ -322,13 +330,16 @@ public abstract class BasePage extends LoggerUtils {
     return (String) js.executeScript("return arguments[0].value", element);
   }
 
-  //najjednostavnija wrap metoda za klik na element, ne ceka da bude klikable
+  //------------------------------------------------------------------------------------------------------------------
+  // KLIK NA ELEMENT
+
+  // Najjednostavnija wrap metoda za klik na element, ne ceka da bude klikable
   protected void clickOnWebElement(WebElement element) {
     log.trace("clickOnWebElement(" + element +")");
     element.click(); // Seleniumov klik
   }
 
-  //overload metode od gore - cseka da bude klikable
+  // Overload metode od gore - ceka da bude klikable
   protected void clickOnWebElement(WebElement element, int timeOut) {
     log.trace("clickOnWebElement(" + element + "," + timeOut + ")");
     WebElement webElement = waitForElementToBeClickable(element, timeOut);
@@ -341,5 +352,7 @@ public abstract class BasePage extends LoggerUtils {
     JavascriptExecutor js = (JavascriptExecutor) driver;
     js.executeScript("arguments[0].click();", element);
   }
+
+  //------------------------------------------------------------------------------------------------------------------
 
 }
