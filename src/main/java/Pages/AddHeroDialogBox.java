@@ -4,6 +4,8 @@ import Data.Time;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 public class AddHeroDialogBox extends BasePage{
@@ -12,10 +14,18 @@ public class AddHeroDialogBox extends BasePage{
   // Razlozi:
   // 1. Kad je otvoren vise NEMAMO interackciju sa elementima iz UsersPage niti sa TAB-ovima za navigaciju i zato AddHero DigalogBox ne treba da nasledjuje metode iz CommonLoggedInPage, vec samo BasePage klasu
 
-  //LOCATOR
+  // PAGE FACTORY LOCATORS
+  @FindBy (id="addHeroModal")
+  private WebElement addHeroDialogBox;
+
   public final String addHeroDialogBoxString = "//div[@id='addHeroModal']";
-  private final By addHeroDialogBoxLocator = By.id("addHeroModal");
-  private final By cancelButtonLocator = By.xpath(addHeroDialogBoxString + "//button[contains(@class,'btn-default')]");
+  @FindBy (xpath=addHeroDialogBoxString + "//button[contains(@class,'btn-default')]")
+  private WebElement cancelButton;
+
+  //ako ne koristimo Page Factory:
+  //public final String addHeroDialogBoxString = "//div[@id='addHeroModal']";
+  //private final By addHeroDialogBoxLocator = By.id("addHeroModal");
+  //private final By cancelButtonLocator = By.xpath(addHeroDialogBoxString + "//button[contains(@class,'btn-default')]");
 
   //KONSTRUKTOR
   public AddHeroDialogBox(WebDriver driver) {
@@ -25,12 +35,12 @@ public class AddHeroDialogBox extends BasePage{
 
   //--------------------------------------------------------------------------------------------------------------------------------------------
 
-  // Privatne metode jel 'Add Hero' DialogBox visible/invisible - po jedna sa timeoutom i jedan sa defaultnim timeoutom
+  // Privatne metode da li je 'Add Hero' DialogBox visible/invisible - po jedna sa timeoutom i jedna sa defaultnim timeoutom (5sec)
   // Potrebno nam je za verifyAddHeroDialogBox
-  // Osslanja se na BasePage metodu isWebElementVisible / isWebElementInvisible
+  // Oslanja se na BasePage metodu isWebElementVisible / isWebElementInvisible
 
   private boolean isAddHeroDialogBoxOpened(int timeOut) {
-    return isWebElementVisible(addHeroDialogBoxLocator, timeOut);
+    return isWebElementVisible(addHeroDialogBox, timeOut);
   }
 
   private boolean isAddHeroDialogBoxOpened() {
@@ -38,7 +48,7 @@ public class AddHeroDialogBox extends BasePage{
   }
 
   private boolean isAddHeroDialogBoxClosed(int timeOut) {
-    return isWebElementInvisible(addHeroDialogBoxLocator, timeOut);
+    return isWebElementInvisible(addHeroDialogBox, timeOut);
   }
 
   private boolean isAddHeroDialogBoxClosed() {
@@ -70,13 +80,12 @@ public class AddHeroDialogBox extends BasePage{
   //CANCEL BUTTON - isDisplayed, click
   public boolean isCancelButtonDisplayed() {
     log.debug("isCancelButtonDisplayed()");
-    return  isWebElementDisplayed(cancelButtonLocator);
+    return  isWebElementDisplayed(cancelButton);
   }
 
   public HeroesPage clickCancelButton() {
     log.debug("clickCancelButton()");
     Assert.assertTrue(isCancelButtonDisplayed(), "'Cancel' Button is NOT present on 'Add Hero' DialogBox!");
-    WebElement cancelButton = getWebElement(cancelButtonLocator);
     clickOnWebElement(cancelButton);
     //sacekaj i verifikuj da je postao invisible
     Assert.assertTrue(isAddHeroDialogBoxClosed(Time.TIME_SHORTER), "'Add Hero' DialogBox is NOT closed!");
