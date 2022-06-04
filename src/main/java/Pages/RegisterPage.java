@@ -24,7 +24,7 @@ public class RegisterPage extends CommonLoggedOutPage{
   // Mane:
   // @FindBy proverava samo da li element postoji/ne postoji a ne moze da proveri jel visible ili ne
   // Ispod haube koristi implicit wait ( ovde nam je 3 sec).
-  // Nije dobar za elemente koje treba duze da cekamo - takvih ima manje i za njih cemo da koristimo By.locator i metode waitUntilPresenceOfWebelement
+  // Nije dobar za elemente koje treba duze da cekamo - takvih ima manje i za njih cemo da koristimo By.locator i metode waitUntilPresenceOfWebElement
   // Nije dobar za elemente koji se dinamicki pojavljuju na stranicama (pretraga tabela). u tomu slucaju celu tabelu lociramo preko PF a pojedinacne elemente pomocu findElement
 
   @FindBy (id="username")

@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import tests.BaseTest;
 
 @Test(groups = {Groups.REGRESSION, Groups.SANITY, Groups.LOGIN})
-public class UnsuccessfulLoginWrongPassword extends BaseTest {
+public class UnsuccessfulLoginWrongPasswordTest extends BaseTest {
 
   private String sTestName = this.getClass().getName();
 

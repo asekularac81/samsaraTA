@@ -18,7 +18,7 @@ import tests.BaseTest;
 // Ali mozemo dan pred leganje rilis candidata da pustimo evalutation job i sredimo sve lokatore ako su se promenili/Bug
 
 @Test(groups = Groups.EVALUATION)
-public class EvaluateLoginPage extends BaseTest {
+public class EvaluateLoginPageTest extends BaseTest {
 
   private String sTestName = this.getClass().getName();
   private WebDriver driver;
@@ -30,7 +30,7 @@ public class EvaluateLoginPage extends BaseTest {
   }
 
   @Test
-  public void evaluationTest() {
+  public void evaluateLoginPage() {
 
     LoginPage loginPage = new LoginPage(driver).open();
 

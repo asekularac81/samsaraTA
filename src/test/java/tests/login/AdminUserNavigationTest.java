@@ -21,7 +21,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import tests.BaseTest;
 
-@Test(groups = Groups.REGRESSION)
+@Test(groups = {Groups.REGRESSION, Groups.SANITY, Groups.USERS})
 public class AdminUserNavigationTest extends BaseTest {
 
 

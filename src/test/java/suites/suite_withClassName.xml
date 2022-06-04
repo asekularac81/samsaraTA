@@ -2,8 +2,8 @@
 <suite name="Suite" parallel="methods" thread-count="4">
   <test name="Tests">
     <classes>
-      <class name="tests.login.SuccessfulLoginLogout"/>
-      <class name="tests.login.UnsuccessfulLoginWrongPassword"/>
+      <class name="tests.login.SuccessfulLoginLogoutTest"/>
+      <class name="tests.login.UnsuccessfulLoginWrongPasswordTest"/>
     </classes>
   </test>
 </suite>

@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import tests.BaseTest;
 
-@Test(groups = Groups.REGRESSION)
+@Test(groups = {Groups.REGRESSION, Groups.USERS })
 public class UserNavigationTest extends BaseTest {
 
   private String sTestName = this.getClass().getName();
@@ -38,7 +38,7 @@ public class UserNavigationTest extends BaseTest {
     sUserPassword = PropertiesUtils.getUserPassword();
   }
 
-  public void testAdminUserNavigation() {
+  public void testUserNavigation() {
     log.info("[START TEST] " + sTestName);
 
     log.info("Open Login page and verify Page title.");

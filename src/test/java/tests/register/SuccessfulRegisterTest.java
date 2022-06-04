@@ -10,8 +10,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import tests.BaseTest;
 
-@Test(groups = {Groups.REGRESSION, Groups.SANITY})
-public class SuccessfulRegister extends BaseTest {
+@Test(groups = {Groups.REGRESSION, Groups.SANITY, Groups.REGISTER})
+public class SuccessfulRegisterTest extends BaseTest {
 
   private String sTestName = this.getClass().getName();
 

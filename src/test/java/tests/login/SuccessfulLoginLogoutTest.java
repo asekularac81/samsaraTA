@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
 import tests.BaseTest;
 
 @Test(groups = {Groups.REGRESSION, Groups.SANITY, Groups.LOGIN})
-public class SuccessfulLoginLogout extends BaseTest {
+public class SuccessfulLoginLogoutTest extends BaseTest {
 
   private String sTestName = this.getClass().getName(); //moze i getSimpleName() za ime same klase, bez putanje
 

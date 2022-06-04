@@ -56,6 +56,6 @@ public class AddNewUser extends BaseTest {
   @AfterMethod(alwaysRun = true)
   public void tearDownTest (ITestResult testResult) {
     log.info("[END TEST] " + sTestName);
-    tearDown(driver, testResult);
+    //tearDown(driver, testResult);
   }
 }

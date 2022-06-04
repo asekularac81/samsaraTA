@@ -13,8 +13,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import tests.BaseTest;
 
-@Test(groups = {Groups.REGRESSION, Groups.SANITY})
-public class AddNewHero extends BaseTest {
+@Test(groups = {Groups.REGRESSION, Groups.SANITY, Groups.HEROES})
+public class AddNewHeroTest extends BaseTest {
 
   private String sTestName = this.getClass().getName();
 
