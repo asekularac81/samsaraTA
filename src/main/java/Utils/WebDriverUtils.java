@@ -16,7 +16,7 @@ import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 
-//utils klase extenduju LoggerUtils da bi logovanje bilo centralizovano. Takodje i BasePage, BaseTest
+// Utils klase extenduju LoggerUtils da bi logovanje bilo centralizovano. Takodje i BasePage, BaseTest
 public class WebDriverUtils extends LoggerUtils {
 
   public static WebDriver setUpDriver() {
@@ -117,6 +117,13 @@ public class WebDriverUtils extends LoggerUtils {
     driver.manage().window().maximize();
 
     return driver;
+  }
+
+  // Metoda da promenimo impilicitWait SAMO NA JEDNOJ instanci drivera, vazi dok je ziv driver ili ga ponovo promenimo
+  // Korisicemo je u metodama koje rade sa WebElementima koji su definisani preko Page Factory a zelimo da ih sacekamo da budu present
+  // posto Page Factory koristi iskljucivo implicitWait
+  public static void setImplicitWait(WebDriver driver, int timeOut) {
+    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeOut));
   }
 
   public static boolean hasDriverQuit(WebDriver driver){

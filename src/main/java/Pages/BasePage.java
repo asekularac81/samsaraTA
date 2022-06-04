@@ -105,19 +105,46 @@ public abstract class BasePage extends LoggerUtils {
   }
 
   //-----------------------------------------------------------------------------------------------
-  // DOHVATANJE WEB ELEMENATA
 
-  // Dohvatanje elementa preko By lokatora - koristi implicitni wait (3 sec)
-  // Ako nema elementa - ponavalja potragu do timeouta, na svakih 500ms
-  // Proverava samo dal je prisutan ali ne i dali je clickable itd, za to moras explicit wait
+  // Osnovna stanja koja mozemo da proverimo preko Seleniuma:
+  // Presence - da li postoji ili ne
+  // Ako postoji imamo dalje:
+    // Visible/Invisible
+    // Clickable ili Enabled
+    // Selected
+
+  // Presence:
+  // findElement              | implicit wait | vraca WebElement | ceka max implicit wait, pretrazuje na svakih 500ms
+  // presenceOfElementLocated | explicit wait | vraca WebElement | definisemo kolko da ceka, ponavlja na 500 ms
+
+  // Ako element postoji imamo dalje provere:
+  // Visible/Displayed:
+  // elementToBeVisible/Invisible | cekajuca         | explicit wait | vraca WebElement | definisemo kolko da ceka, ponavlja na 500 ms
+  // Displayed                    | u datom trenutku | ne ceka       | vraca T/F        |
+
+  // Clickable/Enabled:
+  // elementToBeClickable        | cekajuca          | explicit wait | vraca WebElement | definisemo kolko da ceka, ponavlja na 500 ms
+  // isEnabled                   | u datom trenutku  | ne ceka       | vraca T/F
+
+  // Selected:
+  // elementToBeSelected         | cekajuca          | explicit wait | vraca WebElement | definisemo kolko da ceka, ponavlja na 500 ms
+  // isSelected                  | u datom trenutku  | ne ceka       | vraca T/F        |
+
+
+ //-----------------------------------------------------------------------------------------------
+  // DOHVATANJE WEB ELEMENATA preko BY lokatora
+  // Proverava samo dal je PRESENCE ali NE i da li je visible/clickable/selected itd. Vraca WebElement
+
+  // Opcija 1 - da koristimo implicitni wait (3 sec). Ako nema elementa - ponavalja potragu do timeouta, na svakih 500ms
+  // Oslanja se na findElement () Selenium metodu
   protected WebElement getWebElement(By locator) {
     log.trace("getWebElement(" + locator + ")");
     return driver.findElement(locator);
   }
 
-  // Overload
-  // Ako moramo da cekamo da se element pojavi, pravimo overloadovanu metodu sa timeOut-om
-  // Koristimo WebDriverWait koji proverava na 500 milisecss - Explicit wait
+  // Opcija 2 - da koristimo eksplicitni (WebDriverWait) wait sa timeOut-om ako hocemo da cekako da se pojavi
+  // Oslanja se na presenceOfElementLocated
+  // Overload metode gore sa timeOut-om
   protected WebElement getWebElement(By locator, int timeOut) {
     log.trace("getWebElement(" + locator + "," + timeOut +")");
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
@@ -125,10 +152,10 @@ public abstract class BasePage extends LoggerUtils {
     return element;
   }
 
-  // FluentWait - primer metode od gore sa FluentWait-om - retko se koristi. Dodatno definisemo:
+  // Opcija 3 - da koristimo eksplicitni (Fluent Wait). Dodatno definisemo:
   // pooling time - razmak izmedju pokusaja
   // Exception koji  ignorisemo
-  // Ima smisla kad znamo da cemo cekat duze recimo upload fajla traje 5 min i pooling time je 10 sec
+  // Redje se koristi, ali ima smisla kad znamo da cemo duze cekati, recimo upload fajla traje 5 min i pooling time je 10 sec
   protected WebElement getWebElement(By locator, int timeOut, int pollingTime) {
     log.trace("getWebElement(" + locator + "," + timeOut + "," + pollingTime + ")");
     Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
@@ -143,7 +170,7 @@ public abstract class BasePage extends LoggerUtils {
     return element;
   }
 
-  // Ista metoda za FluentWait kao gore samo napisana jednostavnije, sa replace with Lambda
+  // Opcija 3.1 - da koristimo eksplicitni (Fluent Wait), napisana jednostavnije (kad uradimo replace with Lambda)
   protected WebElement getWebElementSimplified(By locator, int timeOut, int pollingTime) {
     log.trace("getWebElementSimplified(" + locator + "," + timeOut + "," + pollingTime + ")");
     Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
@@ -155,11 +182,33 @@ public abstract class BasePage extends LoggerUtils {
     return element;
   }
 
-  // Metoda koja saceka da el bude klikabilan i VRATI element!
+  //------------------------------------------------------------------------------------------------------------------
+
+  // CLICKABLE/ENABLED
+  // Metode predpostavljaju da element postoji i zato pre nego ih negde pozovemo treba da uradimo assert da element postoji
+
+  // Proverava u DATOM TRENUTKU  da li je klikabilan. Vraca True/False
+  protected boolean isWebElementEnabled (WebElement element) {
+    log.trace("isWebElementEnabled(" + element + ")");
+    return element.isEnabled();
+  }
+
+  // CEKA da element bude klikabilan i VRATI element!
   protected WebElement waitForElementToBeClickable(WebElement element, int timeOut) {
     log.trace("waitForElementToBeClickable(" + element + "," + timeOut + ")");
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
     return  wait.until(ExpectedConditions.elementToBeClickable(element));  // ima i varijanta da prosledis lokator ali mi cemo opciju sa prosledjenim WebElementom
+  }
+
+  // CEKA da element bude klikabilan i vrati True/False
+  protected boolean isWebElementEnabled (WebElement element, int timeOut) {
+    log.trace("isWebElementEnabled(" + element + "," + timeOut + ")");
+    try {
+      waitForElementToBeClickable(element, timeOut);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
   }
 
   //------------------------------------------------------------------------------------------------------------------

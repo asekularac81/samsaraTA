@@ -55,6 +55,9 @@ public class RegisterPage extends CommonLoggedOutPage{
   @FindBy (id="repassword")
   private WebElement confirmPasswordTextField;
 
+  @FindBy(id="submitButton")
+  private WebElement signUpButton;
+
   // KONSTRUKTOR
   public RegisterPage(WebDriver driver) {
     super(driver);
@@ -273,4 +276,55 @@ public class RegisterPage extends CommonLoggedOutPage{
 
   //--------------------------------------------------------------------------------------------------------------------------------------------
 
+  // SIGN UP BUTTON - isDisplayed, isEnabled/Clickable, click, getTitle ?
+
+  // U DATOM TRENUTKU
+  // Da li se vidi?
+  public boolean isSignUpButtonDisplayed() {
+    log.debug("isSignUpButtonDisplayed()");
+    return isWebElementDisplayed(signUpButton); //ovde koristimo isDisplayed() koja proverava u datom trenutku
+  }
+
+  // U DATOM TRENUTKU
+  // Da li je klikabilan?
+  public boolean isSignUpButtonEnabled() {
+    log.debug("isSignUpButtonEnabled()");
+    Assert.assertTrue(isSignUpButtonDisplayed(), "'Sign Up' button is NOT displayed on Register page!"); //isEnabled() podrazumeva da element postoji zato cemo prvo uraditi assert
+    return isWebElementEnabled(signUpButton); // ovde koristimo isEnabled() koja proverava u datom trenutku
+  }
+
+  // CEKAJUCA METODA, Override
+  // Da li je klikabilan?
+  public boolean isSignUpButtonEnabled(int timeOut) {
+    log.debug("isSignUpButtonEnabled(" + timeOut + ")");
+    Assert.assertTrue(isSignUpButtonDisplayed(), "'Sign Up' button is NOT displayed on Register page!");
+    return isWebElementEnabled(signUpButton, timeOut);  // ovde ulazimo u cekajucu metodu koja koristi elementToBeClickable()
+  }
+
+  // Click metoda koja NE ceka. Pre nego kliknemo proverimo da li je Enabled u datom truenutku
+  public LoginPage clickSignUpButton() {
+    log.debug("clickSignUpButton()");
+    Assert.assertTrue(isSignUpButtonEnabled(), "'Sign Up' button is NOT enabled on Register page!"); //ovde smo koristili metodu koja NE ceka - isEnabled()
+    clickOnWebElement(signUpButton);
+    LoginPage loginPage = new LoginPage(driver);
+    return loginPage.verifyLoginPage();
+  }
+
+  // Click metoda koja CEKA da Button postane Enabled - opcija 1.
+  // Ova je bolja zbog greske u negativnim slucajevima
+  public LoginPage clickSignUpButton(int timeOut)  {
+    log.debug("clickSignUpButton(" + timeOut + ")");
+    Assert.assertTrue(isSignUpButtonEnabled(timeOut), "'Sign Up' button is NOT enabled on Register page!"); //ovde smo koristili metodu koja CEKA - elementToBeClickable
+    clickOnWebElement(signUpButton);
+    LoginPage loginPage = new LoginPage(driver);
+    return loginPage.verifyLoginPage();
+  }
+
+  // Click metoda koja CEKA da Button postane Enabled - opcija 2.
+  public LoginPage clickSignUpButton1(int timeOut)  {
+    log.debug("clickSignUpButton(" + timeOut + ")");
+    clickOnWebElement(signUpButton, timeOut ); //ovde smo koristili metodu koja CEKA - elementToBeClickable
+    LoginPage loginPage = new LoginPage(driver);
+    return loginPage.verifyLoginPage();
+  }
 }
