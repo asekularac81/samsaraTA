@@ -144,7 +144,7 @@ public abstract class BasePage extends LoggerUtils {
 
   // Opcija 2 - da koristimo eksplicitni (WebDriverWait) wait sa timeOut-om ako hocemo da cekako da se pojavi
   // Oslanja se na presenceOfElementLocated
-  // Overload metode gore sa timeOut-om
+  // Overload, sa timeOut-om
   protected WebElement getWebElement(By locator, int timeOut) {
     log.trace("getWebElement(" + locator + "," + timeOut +")");
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));

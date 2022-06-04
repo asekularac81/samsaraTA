@@ -293,7 +293,7 @@ public class RegisterPage extends CommonLoggedOutPage{
     return isWebElementEnabled(signUpButton); // ovde koristimo isEnabled() koja proverava u datom trenutku
   }
 
-  // CEKAJUCA METODA, Override
+  // Overload, CEKAJUCA METODA
   // Da li je klikabilan?
   public boolean isSignUpButtonEnabled(int timeOut) {
     log.debug("isSignUpButtonEnabled(" + timeOut + ")");
@@ -310,7 +310,7 @@ public class RegisterPage extends CommonLoggedOutPage{
     return loginPage.verifyLoginPage();
   }
 
-  // Click metoda koja CEKA da Button postane Enabled - opcija 1.
+  // Overload, Click metoda koja CEKA da Button postane Enabled - opcija 1.
   // Ova je bolja zbog greske u negativnim slucajevima
   public LoginPage clickSignUpButton(int timeOut)  {
     log.debug("clickSignUpButton(" + timeOut + ")");
@@ -320,7 +320,7 @@ public class RegisterPage extends CommonLoggedOutPage{
     return loginPage.verifyLoginPage();
   }
 
-  // Click metoda koja CEKA da Button postane Enabled - opcija 2.
+  // Overload, Click metoda koja CEKA da Button postane Enabled - opcija 2.
   public LoginPage clickSignUpButton1(int timeOut)  {
     log.debug("clickSignUpButton(" + timeOut + ")");
     clickOnWebElement(signUpButton, timeOut ); //ovde smo koristili metodu koja CEKA - elementToBeClickable
