@@ -28,8 +28,9 @@ public abstract class BasePage extends LoggerUtils {
   protected WebDriver driver;
 
   // KONSTRUKTOR
-  // Ovde cemo da pozovemo staticku metodu koja inicira sve WebElemenete koji su definisani sa @FindBy
+  // Ovde cemo da pozovemo staticku metodu za inicijalizaciju WebElemeneta koji su definisani sa @FindBy
   // I onda ne moremo da je pozivamo u ostalim Page klasama
+  // Ne dohvataju se WebElementi sada vec samo pred interakciju sa pojedinacnim WebElementom
   public BasePage(WebDriver driver) {
     Assert.assertFalse(WebDriverUtils.hasDriverQuit(driver), "Driver instance has quit!");
     this.driver = driver;
@@ -106,7 +107,9 @@ public abstract class BasePage extends LoggerUtils {
   //-----------------------------------------------------------------------------------------------
   // DOHVATANJE WEB ELEMENATA
 
-  // Dohvatanje elementa preko By lokatora
+  // Dohvatanje elementa preko By lokatora - koristi implicitni wait (3 sec)
+  // Ako nema elementa - ponavalja potragu do timeouta, na svakih 500ms
+  // Proverava samo dal je prisutan ali ne i dali je clickable itd, za to moras explicit wait
   protected WebElement getWebElement(By locator) {
     log.trace("getWebElement(" + locator + ")");
     return driver.findElement(locator);
@@ -114,7 +117,7 @@ public abstract class BasePage extends LoggerUtils {
 
   // Overload
   // Ako moramo da cekamo da se element pojavi, pravimo overloadovanu metodu sa timeOut-om
-  // koristimo WebDriverWait koji proverava na 500 milisecss - explicit wait
+  // Koristimo WebDriverWait koji proverava na 500 milisecss - Explicit wait
   protected WebElement getWebElement(By locator, int timeOut) {
     log.trace("getWebElement(" + locator + "," + timeOut +")");
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
@@ -122,10 +125,10 @@ public abstract class BasePage extends LoggerUtils {
     return element;
   }
 
-  // FluentWait - primer metode od gore sa FluentWait-om - retko se koristi
-  // On ima dodatni parametar pooling time - razmak izmedju pokusaja
-  // moze da se definise koji exception ignorisemo
-  // ima smisla kad znamo da cemo cekat duze recimo upload fajla traje 5 min i pooling time je 10 sec
+  // FluentWait - primer metode od gore sa FluentWait-om - retko se koristi. Dodatno definisemo:
+  // pooling time - razmak izmedju pokusaja
+  // Exception koji  ignorisemo
+  // Ima smisla kad znamo da cemo cekat duze recimo upload fajla traje 5 min i pooling time je 10 sec
   protected WebElement getWebElement(By locator, int timeOut, int pollingTime) {
     log.trace("getWebElement(" + locator + "," + timeOut + "," + pollingTime + ")");
     Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
@@ -140,7 +143,7 @@ public abstract class BasePage extends LoggerUtils {
     return element;
   }
 
-  //ista metoda za FluentWait kao gore samo napisana sa replace with Lambda
+  // Ista metoda za FluentWait kao gore samo napisana jednostavnije, sa replace with Lambda
   protected WebElement getWebElementSimplified(By locator, int timeOut, int pollingTime) {
     log.trace("getWebElementSimplified(" + locator + "," + timeOut + "," + pollingTime + ")");
     Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)

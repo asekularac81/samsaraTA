@@ -1,9 +1,12 @@
 package tests.register;
 
+import Data.CommonStrings;
 import Data.Groups;
+import Pages.HomePage;
 import Pages.LoginPage;
 import Pages.RegisterPage;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -28,9 +31,12 @@ public class SuccessfulRegisterTest extends BaseTest {
 
     log.info("[START TEST] " + sTestName);
 
-    log.info("Open Login page and click 'Create Account' link");
+    log.info("Open Login page.");
     LoginPage loginPage = new LoginPage(driver).open();
+
+    log.info("Click 'Create Account' link, navigate to Register page and verify page Title.");
     RegisterPage registerPage = loginPage.clickCreateAccountLink();
+    Assert.assertEquals(registerPage.getPageTitle(), CommonStrings.getLocaleString(CommonStrings.REGISTER_PAGE_TITLE), "Wrong page Title on Register Page!");
 
     log.info("Enter all text fields on Register Page");
     registerPage.typeUsername("ladybug");

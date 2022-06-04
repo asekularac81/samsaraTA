@@ -14,14 +14,18 @@ public class LoginPage extends CommonLoggedOutPage {
   private final String LOGIN_PAGE_URL = getPageUrl(PageUrlPaths.LOGIN_PAGE);
 
   // WEB ELEMENTI/LOKATORI:
-  // ako NE koristimo PageFactory - definisemo LOKATORE za WebElemente, a svaka metoda mora da dohvati WebElement u trenutku kad oce da ga koristi, nikako pre jer se desava StaleElemet Reference greska
-  // ako koristimo PageFactory - onda su to WEB ELEMENTI
+  // Imamo 2 nacina za nalazenje WebElemenata - BY LOCATORS ili PAGE FACTORY
+  // 1 - BY LOCATORS - definisemo LOKATORE za WebElemente. Zatim svaka metoda mora da dohvati WebElement u trenutku kad oce da ga koristi,
+  // nikako pre jer se desava StaleElemet Reference greska
+  // 2 - PAGE FACTORY - definisemo atribute klase koji su reference na WEB ELEMENTE koje dalje koristimo u metodama (ne moramo u metodi da dohvatamo webelement)
+
+  // U oba slucaja Loktori/WebElemeti su:
   // PRIVATE - da ne moze iz druge stranice/testa da se pristupa webelementu/lokatoru. Moci ce da im se pristupa samo preko metoda. Zasto:
   // odrzavanje - ako se promeni lokator moras da menjas na vise mesta umesto da u Page napravis metode koje rade sa elemetom i ako se promeni menjas ga na 1 mestu
   // da test bude napisan tako da ne zavisi od alata koji cemo mozda zeleti da menjamo
   // FINAL - da niko ne moze da ih dalje menja
 
-  // PRIMER SA LOKATORIMA (NE koristimo PageFactory)
+  // PRIMER SA BY LOKATORIMA:
   // Ovo su lokatori ka webelementima koje cemo dohvatiti u samoj metodi - neposredno pred koristenje
   // Naming konvencija:
   // Sta radi element/ Tip elementa / Locator (ako je WebElement onda nista)

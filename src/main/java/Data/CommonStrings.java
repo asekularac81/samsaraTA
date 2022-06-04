@@ -28,6 +28,8 @@ public final class CommonStrings {
   public static final String API_PAGE_TITLE = "API_PAGE_TITLE";
   public static final String PRACTICE_PAGE_TITLE = "PRACTICE_PAGE_TITLE";
   public static final String ADMIN_PAGE_TITLE = "ADMIN_PAGE_TITLE";
+  public static final String REGISTER_PAGE_TITLE = "REGISTER_PAGE_TITLE";
+  public static final String FORGOT_PASSWORD_PAGE_TITLE= "FORGOT_PASSWORD_PAGE_TITLE";
 
   //TAB TITLES
   public static final String HOME_TAB_TITLE = "HOME_TAB_TITLE";

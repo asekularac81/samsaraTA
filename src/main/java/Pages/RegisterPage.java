@@ -13,17 +13,18 @@ public class RegisterPage extends CommonLoggedOutPage{
   private final String REGISTER_PAGE_URL = getPageUrl(PageUrlPaths.REGISTER_PAGE);
 
   // PAGE FACTORY LOCATORS
-  // Ovde cemo da koristimo PAGE FACTORY i to je potpuni POM. Implementira se:
+  // Kao atribute u klasi imamo reference na WebElemente a ne lokatore pa da posle dohvatamo webelemente posle u metodama
+  // To je potpuni POM. Implementira se:
   // Webelementi se definisu sa sa anotacijom @FindBy (xpath/id/name...)
   // Staticka metoda koja inicijalizuje webelemente PageFactory.initElements(driver,this);
 
-  // WebElement se trazi tek kad zelimo da mu pristupimo (izbegavamo StaleElement Reference)
-  // Ako je los xpath nece puci prilikom inicijalizacije strenice vec samo ako pokusamo interakciju sa WebElementom
+  // WebElement se trazi tek kad zelimo da mu pristupimo, svaki put iznova (izbegavamo StaleElement Reference)
+  // Ako je los xpath nece puci prilikom inicijalizacije stranice vec samo ako pokusamo interakciju sa WebElementom
 
-  // Prednosti: brze i lakse dohvatanje elementa, izbegavamo StaleElement reference
+  // Prednosti: brze i lakse dohvatanje elementa, izbegavamo StaleElement reference. Framework bude pouzdaniji
   // Mane:
   // @FindBy proverava samo da li element postoji/ne postoji a ne moze da proveri jel visible ili ne
-  // Ispod haube koristi implicit wait ( ovde nam je 3 sec).
+  // Ispod haube koristi implicit wait ( ovde nam je 3 sec), mada moze da se definise i poseban wait na nivou Page Factory-a ali je opet fiksan za sve lokatore, isto kao implicit wait
   // Nije dobar za elemente koje treba duze da cekamo - takvih ima manje i za njih cemo da koristimo By.locator i metode waitUntilPresenceOfWebElement
   // Nije dobar za elemente koji se dinamicki pojavljuju na stranicama (pretraga tabela). u tomu slucaju celu tabelu lociramo preko PF a pojedinacne elemente pomocu findElement
 
@@ -53,7 +54,6 @@ public class RegisterPage extends CommonLoggedOutPage{
 
   @FindBy (id="repassword")
   private WebElement confirmPasswordTextField;
-
 
   // KONSTRUKTOR
   public RegisterPage(WebDriver driver) {
