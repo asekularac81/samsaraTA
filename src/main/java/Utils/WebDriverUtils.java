@@ -119,7 +119,7 @@ public class WebDriverUtils extends LoggerUtils {
     return driver;
   }
 
-  // Metoda da promenimo impilicitWait SAMO NA JEDNOJ instanci drivera, vazi dok je ziv driver ili ga ponovo promenimo
+  // Staticka metoda da promenimo impilicitWait SAMO NA JEDNOJ instanci drivera, vazi dok je ziv driver ili ga ponovo promenimo
   // Korisicemo je u metodama koje rade sa WebElementima koji su definisani preko Page Factory a zelimo da ih sacekamo da budu present
   // posto Page Factory koristi iskljucivo implicitWait
   public static void setImplicitWait(WebDriver driver, int timeOut) {

@@ -24,9 +24,14 @@ public class RegisterPage extends CommonLoggedOutPage{
   // Prednosti: brze i lakse dohvatanje elementa, izbegavamo StaleElement reference. Framework bude pouzdaniji
   // Mane:
   // @FindBy proverava samo da li element postoji/ne postoji a ne moze da proveri jel visible ili ne
-  // Ispod haube koristi implicit wait ( ovde nam je 3 sec), mada moze da se definise i poseban wait na nivou Page Factory-a ali je opet fiksan za sve lokatore, isto kao implicit wait
+  // Ispod haube koristi implicit wait (nama je 3 sec), mada moze da se definise i poseban wait na nivou Page Factory-a ali je opet fiksan za sve lokatore, isto kao implicit wait
+  // Ako istekne implicit wait a nema ga, pada sa NoSuchElementException
   // Nije dobar za elemente koje treba duze da cekamo - takvih ima manje i za njih cemo da koristimo By.locator i metode waitUntilPresenceOfWebElement
   // Nije dobar za elemente koji se dinamicki pojavljuju na stranicama (pretraga tabela). u tomu slucaju celu tabelu lociramo preko PF a pojedinacne elemente pomocu findElement
+
+  // Clanci o manama Page Factory-a:
+  // http://makeseleniumeasy.com/2020/05/24/where-does-pagefactory-suck-selenium-webdriver-java/
+  // https://iainrose.tumblr.com/post/27612544255/closing-the-pagefactory
 
   @FindBy (id="username")
   private WebElement usernameTextField;

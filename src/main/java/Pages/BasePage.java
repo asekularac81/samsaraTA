@@ -130,6 +130,19 @@ public abstract class BasePage extends LoggerUtils {
   // elementToBeSelected         | cekajuca          | explicit wait | vraca WebElement | definisemo kolko da ceka, ponavlja na 500 ms
   // isSelected                  | u datom trenutku  | ne ceka       | vraca T/F        |
 
+  /*
+  WebElement metode za proveru stanja:
+  U DATOM TRENUTKU:
+  isDisplayed-u datom trenutku da li vidljiv
+  isEnabled-u datom trenutku da li klikabilan
+  isSelected-u datom trenutku da li selektovan
+
+  SA WAITOM:
+  wait.until(ExpectedConditions.visibilityOf(element))-cekamo da bude vidljiv
+  wait.until(ExpectedConditions.elementToBeClickable(element))-cekamo da bude klikabilan
+  wait.until(ExpectedConditions.elementToBeSelected(element))-cekamo da bude selected
+  */
+
 
  //-----------------------------------------------------------------------------------------------
   // DOHVATANJE WEB ELEMENATA preko BY lokatora
@@ -184,7 +197,8 @@ public abstract class BasePage extends LoggerUtils {
 
   //------------------------------------------------------------------------------------------------------------------
 
-  // CLICKABLE/ENABLED
+  // CLICKABLE/ENABLED - isEnabled, waitToBe
+  // za WebElement
   // Metode predpostavljaju da element postoji i zato pre nego ih negde pozovemo treba da uradimo assert da element postoji
 
   // Proverava u DATOM TRENUTKU  da li je klikabilan. Vraca True/False
@@ -194,6 +208,8 @@ public abstract class BasePage extends LoggerUtils {
   }
 
   // CEKA da element bude klikabilan i VRATI element!
+  // Znaci kad koristimo PageFactory imamo prvo implicitWait cekanje da element bude Present
+  // pa nakon toga timeOut wait da bude clickable
   protected WebElement waitForElementToBeClickable(WebElement element, int timeOut) {
     log.trace("waitForElementToBeClickable(" + element + "," + timeOut + ")");
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
@@ -216,7 +232,7 @@ public abstract class BasePage extends LoggerUtils {
   // VISIBLE
   // Metode koje cekaju da nesto postane vidljivo/nevidljivo
   // WAIT for element to be VISIBLE (2) - preko locatora, preko WebElementa
-  // timeout-vreme koje cekamo da od nevidljivosti postane vidljiv
+  // timeout - vreme koje cekamo da od nevidljivosti postane vidljiv
   // dole imamo wrapere koji proveravaju jel vidljivo/nevidljivo-boolean
 
   // preko locatora, korisna bez PageFactory-a. vrati WebElement
@@ -227,6 +243,8 @@ public abstract class BasePage extends LoggerUtils {
   }
 
   // preko WebElementa, korisna za PageFactory. WebElement smo vec dohvatili, samo da vidimo jel visible
+  // Ocekuje da je element prisutan u DOM a cekaju na promenju visible stanja
+  // Ako ga nema - puca sa NoSuchElementException
   protected WebElement waitForElementToBeVisible(WebElement element, int timeOut) {
     log.trace("waitForElementToBeVisible(" + element + "," + timeOut + ")");
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
@@ -265,7 +283,9 @@ public abstract class BasePage extends LoggerUtils {
     return isWebElementVisible(locator, Time.TIME_SHORTER);
   }
 
-  // Visible, preko webElementa
+  // Visible, preko webElementa, sa cekanjem
+  // waitForElementToBeVisible- ocekuje da je element prisutan i ceka na promenju visible stanja
+  // Ako ga nema - puca sa NoSuchElementException, te smo zato stavili try/catch da bi mogli da vratimo true/false
   protected boolean isWebElementVisible(WebElement element, int timeOut) {
     log.trace("isWebElementVisible(" + element + "," + timeOut + ")");
     try {
@@ -315,11 +335,12 @@ public abstract class BasePage extends LoggerUtils {
 
   //------------------------------------------------------------------------------------------------------------------
 
-  // DISPLAYED
-  // Wrapovana opsta metoda koja  ako element ne postoji vrati false umesto da pukne
-  // kako bi mogla da se koristi i za negativan scenario.
+  // DISPLAYED - isDisplayed
+  // Wrapovana isDisplayed() metoda koja ce da vrati false ako element ne postoji umesto da pukne
+  // kako bi mogla da se koristi i za negativan scenario
+  // varijanta za BY locator, bez cekanja
   protected boolean isWebElementDisplayed (By locator) {
-    log.debug("isWebElementDisplayed()");
+    log.trace("isWebElementDisplayed()");
     try {
       WebElement webElement =getWebElement(locator);
       return webElement.isDisplayed();
@@ -329,15 +350,26 @@ public abstract class BasePage extends LoggerUtils {
     }
   }
 
-  // Overload metode isWebElementDisplayed(locator) koja prima WebElement (za Page Factory)
+  // Overload, varijanta za WebElement, bez cekanja
   protected boolean isWebElementDisplayed (WebElement element) {
-    log.debug("isWebElementDisplayed()");
+    log.trace("isWebElementDisplayed()");
     try {
       return element.isDisplayed();
     }
     catch (Exception e) {
       return false;
     }
+  }
+
+  // Overload, varijanta za WebElement, SA CEKANJEM
+  // Privremeno menjamo implicit wait i posle ga vratimo
+  // Workaround za jednu od dve mane - sto Page Factory sto koristi implicticWait
+  protected boolean isWebElementDisplayed (WebElement element, int timeOut) {
+    log.trace("isWebElementDisplayed(" + element + "," + timeOut + ")");
+    WebDriverUtils.setImplicitWait(driver, timeOut);
+    boolean bResult = isWebElementDisplayed(element);
+    WebDriverUtils.setImplicitWait(driver, Time.IMPLICIT_TIMEOUT);
+    return bResult;
   }
 
   //------------------------------------------------------------------------------------------------------------------
