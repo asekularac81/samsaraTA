@@ -4,9 +4,9 @@ import java.util.List;
 
 import io.netty.handler.codec.string.LineSeparator;
 
-public class Users {
+public class User {
 
-  //Aributi Users klase su sve sto postoji u jsonu kad izvrsis getUsers
+  //Aributi User klase su sve sto postoji u jsonu kad izvrsis getUsers
   private String username;
   private String password;
   private String email;
@@ -19,7 +19,7 @@ public class Users {
   private String heroCount;
   private List<Hero> heroes;
 
-  private Users (String username, String password, String email, String firstname, String lasttname, String about, String secretQuestion, String secretAnswer, String createdAt, String heroCount, List heroes) {
+  private User(String username, String password, String email, String firstname, String lasttname, String about, String secretQuestion, String secretAnswer, String createdAt, String heroCount, List heroes) {
     this.username=username;
     this.password=password;
     this.email=email;

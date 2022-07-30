@@ -2,6 +2,7 @@ package tests.login;
 
 import Data.CommonStrings;
 import Data.Groups;
+import Objects.User;
 import Pages.APIPage;
 import Pages.AdminPage;
 import Pages.GalleryPage;
@@ -44,9 +45,13 @@ public class DemoTest extends BaseTest {
   public void testDemoTest() {
     log.info("[START TEST] " + sTestName);
 
-    log.debug("'dedoje' user exists:" + RestApiUtils.checkIfUserExists("dedoje"));
-    log.debug("'baboje' user exists:" + RestApiUtils.checkIfUserExists("baboje"));
-    log.debug("'dedoje' user details: \n" + RestApiUtils.getUserJsonFormat("dedoje"));
+    log.info("'dedoje' user exists:" + RestApiUtils.checkIfUserExists("dedoje"));
+    log.info("'baboje' user exists:" + RestApiUtils.checkIfUserExists("baboje"));
+    log.info("'dedoje' user details: \n" + RestApiUtils.getUserJsonFormat("dedoje"));
+
+    User user = RestApiUtils.getUser("admin");
+    log.info("'dedoje' User: \n" + user);
+
 
   }
 

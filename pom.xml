@@ -58,6 +58,12 @@
 <!--      <scope>test</scope> moramo da skinemo test scope jer je to kad je predvidjeno da se koristi u dev projektu za integration testove -->
     </dependency>
 
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.9.0</version>
+    </dependency>
+
   </dependencies>
 
 </project>

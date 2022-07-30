@@ -64,9 +64,11 @@ public final class CommonStrings {
   public static String getLoginErrorMessage() {
     return getLocaleString("LOGIN_ERROR_MESSAGE");
   }
-
   public static String getLogoutSuccessMessage() {
     return getLocaleString("LOGOUT_SUCCESS_MESSAGE");
+  }
+  public static String getRegisterSuccessMessage() {
+    return getLocaleString("REGISTER_SUCCESSFUL_MESSAGE");
   }
 
   //Ovo je kako smo poceli dok nismo imali podrsku za lokalizaciju

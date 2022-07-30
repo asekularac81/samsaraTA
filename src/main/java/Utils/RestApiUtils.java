@@ -1,12 +1,11 @@
 package Utils;
 
-import java.util.Locale;
-
 import Data.ApiCalls;
+import Objects.User;
+import com.google.gson.Gson;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import netscape.javascript.JSObject;
 import org.testng.Assert;
 
 public class RestApiUtils extends LoggerUtils{
@@ -96,4 +95,27 @@ public class RestApiUtils extends LoggerUtils{
   public static String getUserJsonFormat(String sUsername) {
     return getUserJsonFormat(sUsername, sAdminUser, sAdminPass);
   }
+
+  // DESERIJALIZACIJA:
+  // Gson pogleda klasu User i vidi koji su njeni atributi i uparuje ih po imenu i tipu sa onim u jsonu koji smo mu da
+  // tip - dozvoljeno je implicitno castovanje Integer-int...
+  // ono sto nije prepoznato, nece da se deserijalizuje
+  // napravice se objekat User koji ce da popuni atribute samo sa onim sto ima
+
+  public static User getUser(String sUsername, String sAuthUser, String sAuthPass) {
+    log.debug("getUser(" + sUsername + ")");
+    String json = getUserJsonFormat(sUsername, sAuthUser, sAuthPass);
+    Gson gson = new Gson();
+    return gson.fromJson(json, User.class);
+  }
+
+  //overload metode gore, izvrsavamo poziv sa admin userom
+  public static User getUser(String sUsername) {
+    return getUser (sUsername, sAdminUser, sAdminPass);
+  }
+
+  //---------------------------------------------------------------------------------
+
+
+
 }
