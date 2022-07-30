@@ -21,7 +21,7 @@ public class CommonPage extends BasePage{
 
   // PAGE TITLE - iDisplayed, getTitle
   // Page title je isti element na svim ulogovanim stranicama OSIM HomePage gde izgleda drugacije tj ima drugi lokator
-  // Mi cemo napraviti zajednicke metode za title u CommonLoggedInPage
+  // Mi cemo napraviti zajednicke metode za title u CommonPage
   // A zatim cemo da ih overridujemo samo u HomePage klasi
   public boolean isPageTitleDisplayed() {
     log.debug("isPageTitleDisplayed()");

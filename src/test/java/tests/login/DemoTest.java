@@ -46,6 +46,7 @@ public class DemoTest extends BaseTest {
 
     log.debug("'dedoje' user exists:" + RestApiUtils.checkIfUserExists("dedoje"));
     log.debug("'baboje' user exists:" + RestApiUtils.checkIfUserExists("baboje"));
+    log.debug("'dedoje' user details: \n" + RestApiUtils.getUserJsonFormat("dedoje"));
 
   }
 
