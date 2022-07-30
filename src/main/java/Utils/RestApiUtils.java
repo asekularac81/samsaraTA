@@ -1,5 +1,7 @@
 package Utils;
 
+import java.util.Locale;
+
 import Data.ApiCalls;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -39,11 +41,18 @@ public class RestApiUtils extends LoggerUtils{
 
   //public metoda koja ocekuje uspesan odgovor: True ili False, izvrsavamo poziv sa bilo kojim userom
   public static boolean checkIfUserExists(String sUsername, String sAuthUser, String sAuthPass) {
-    log.trace("checkIfUserExistsApiCall(" + sUsername+ ")");
+    log.trace("checkIfUserExistsApiCall(" + sUsername + ")");
     Response response = checkIfUserExistsApiCall(sUsername, sAuthUser, sAuthPass);
     int status = response.getStatusCode();
-    String sResponseBody=response.getBody().asString(); //moze i asPreetyString da vrati lepi json.
-    Assert.assertEquals(status, 200, "Wrong status code in checkIfUserExists(" + sUsername+") Api. Response Body:" + sResponseBody );
+    String sResponseBody = response.getBody().asString(); //moze i asPreetyString da vrati lepi json.
+
+    Assert.assertEquals(status, 200, "Wrong status code in checkIfUserExists(" + sUsername + ") Api. Response Body:" + sResponseBody);
+    //posto moze da se desi da je status 200 ali da body ne bude T/F, onda cemo dadati i ovu proveru pre nego vratimo parsirano Boolean vrednost Body-a
+    //ovo treba izvuci u zasebnu help metodu jer ce nam jos trebati
+    String result = sResponseBody.toLowerCase();
+    if (!(result.equals("true") || result.equals("false"))) {
+      Assert.fail("Cannot convert response " + sResponseBody + " to boolean value!");
+    }
     return Boolean.parseBoolean(sResponseBody); //Response Body isparsiramo kao Boolean
   }
 

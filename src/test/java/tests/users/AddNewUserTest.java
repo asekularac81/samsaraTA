@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 import tests.BaseTest;
 
 @Test(groups = {Groups.REGRESSION, Groups.SANITY})
-public class AddNewUser extends BaseTest {
+public class AddNewUserTest extends BaseTest {
 
   private String sTestName = this.getClass().getName();
 
