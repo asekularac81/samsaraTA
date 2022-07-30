@@ -6,6 +6,7 @@ import Data.ApiCalls;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import netscape.javascript.JSObject;
 import org.testng.Assert;
 
 public class RestApiUtils extends LoggerUtils{
@@ -63,4 +64,36 @@ public class RestApiUtils extends LoggerUtils{
   }
 
   //---------------------------------------------------------------------------------
+
+  //Metode za API poziv: GET /api/users/findByUsername/{username} - Get user with specified username
+  //opsta private metoda koja izvrsi GET poziv i vrati ceo odgovor
+  private static Response getUserApiCall(String sUsername, String sAuthUser, String sAuthPass) {
+    String sApiCall = BASE_URL + ApiCalls.createGetUserApiCall(sUsername);
+    Response response = null;
+    try {
+      response = RestAssured.given().auth().basic(sAuthUser, sAuthPass)
+          .headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON)
+          .when().get(sApiCall);
+    }
+    catch (Exception e) {
+      Assert.fail("Exception in getUserApiCall(" +  sUsername+ ") Api call: " + e.getMessage());
+    }
+    return response;
+  }
+
+  //public metoda koja u slucaju uspesnog odgovora vrati ceo json
+  public static String getUserJsonFormat(String sUsername, String sAuthUser, String sAuthPass) {
+    log.trace("getUserJsonFormat(" + sUsername + ")");
+    Assert.assertTrue(checkIfUserExists(sUsername, sAuthUser, sAuthPass), "User " + sUsername + " doesn't exist!");
+    Response response = getUserApiCall(sUsername, sAuthUser, sAuthPass);
+    int status = response.getStatusCode();
+    String sResponseBody = response.getBody().asPrettyString(); //ovde cemo PreetyString jer je odgovor u JSon Formatu.
+    Assert.assertEquals(status, 200, "Wrong status code in getUserJsonFormat(" + sUsername + ") Api. Response Body:" + sResponseBody);
+    return sResponseBody;
+  }
+
+  //overload metode gore da je izvrsi sa adminom
+  public static String getUserJsonFormat(String sUsername) {
+    return getUserJsonFormat(sUsername, sAdminUser, sAdminPass);
+  }
 }
