@@ -8,6 +8,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.Assert;
 
+// Klasa koja hendluje celu REST API logiku preko RestAssured-a
 public class RestApiUtils extends LoggerUtils{
 
   // http://18.219.75.209:8080/api - ovde su svi API pozivi
@@ -116,6 +117,35 @@ public class RestApiUtils extends LoggerUtils{
 
   //---------------------------------------------------------------------------------
 
+  //Metode za API poziv: DELETE /api/users/deleteByUsername/{username} - Delete user with specified username - PRIVATE
+  private static Response deleteUserApiCall(String sUsername, String sAuthUser, String sAuthPass) {
+    String sApiCall = BASE_URL + ApiCalls.createDeleteUserApiCall(sUsername);
+    Response response = null;
+    try {
+      response = RestAssured.given().auth().basic(sAuthUser, sAuthPass)
+          .headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON)
+          .when().delete(sApiCall);
+    }
+    catch (Exception e) {
+      Assert.fail("Exception in deleteUserApiCall(" +  sUsername+ ") Api call: " + e.getMessage());
+    }
+    return response;
+  }
 
+  // Uspesan odgovor na delete user je code 200, nema Json Body i ne treba nam dohvatanje u JSON Formatu vec samo
+  public static void  deleteUser(String sUsername, String sAuthUser, String sAuthPass) {
+    log.debug("deleteUser(" + sUsername + ")");
+    Assert.assertTrue(checkIfUserExists(sUsername, sAuthUser, sAuthPass), "User " + sUsername + " doesn't exist!");
+    Response response = deleteUserApiCall(sUsername,sAuthUser,sAuthPass);
+    int status = response.getStatusCode();
+    String sResponseBody = response.getBody().asString();
+    Assert.assertEquals(status, 200, "Wrong status code in deleteUser(" + sUsername + ") Api call. Response Body:" + sResponseBody);
+    log.debug("User Deleted: " + checkIfUserExists(sUsername, sAuthUser,sAuthPass));
+  }
 
+  // Overload metode, izvrsavamo poziv sa admin userom
+  public static void  deleteUser(String sUsername) {
+    log.debug("deleteUser(" + sUsername + ")");
+    deleteUser(sUsername, sAdminUser, sAdminPass);
+  }
 }
