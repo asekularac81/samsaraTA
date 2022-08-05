@@ -40,7 +40,7 @@ public class RestApiUtils extends LoggerUtils{
     return response;
   }
 
-  //public metoda koja ocekuje uspesan odgovor: True ili False, izvrsavamo poziv sa bilo kojim userom
+  // Public metoda koja ocekuje uspesan odgovor: True ili False, izvrsavamo poziv sa bilo kojim userom
   public static boolean checkIfUserExists(String sUsername, String sAuthUser, String sAuthPass) {
     log.trace("checkIfUserExistsApiCall(" + sUsername + ")");
     Response response = checkIfUserExistsApiCall(sUsername, sAuthUser, sAuthPass);
@@ -57,7 +57,7 @@ public class RestApiUtils extends LoggerUtils{
     return Boolean.parseBoolean(sResponseBody); //Response Body isparsiramo kao Boolean
   }
 
-  //overload metode gore - izvrsavamo poziv sa admin userom
+  // Overload metode gore - izvrsavamo poziv sa admin userom
   public static boolean checkIfUserExists(String sUsername) {
     log.trace("checkIfUserExistsApiCall(" + sUsername+ ")");
     return checkIfUserExists(sUsername, sAdminUser, sAdminPass);
@@ -65,8 +65,8 @@ public class RestApiUtils extends LoggerUtils{
 
   //---------------------------------------------------------------------------------
 
-  //Metode za API poziv: GET /api/users/findByUsername/{username} - Get user with specified username
-  //opsta private metoda koja izvrsi GET poziv i vrati ceo odgovor
+  // Metode za API poziv: GET /api/users/findByUsername/{username} - Get user with specified username
+  // Opsta private metoda koja izvrsi GET poziv i vrati ceo odgovor
   private static Response getUserApiCall(String sUsername, String sAuthUser, String sAuthPass) {
     String sApiCall = BASE_URL + ApiCalls.createGetUserApiCall(sUsername);
     Response response = null;
@@ -81,7 +81,7 @@ public class RestApiUtils extends LoggerUtils{
     return response;
   }
 
-  //public metoda koja u slucaju uspesnog odgovora vrati ceo json
+  // Public metoda koja u slucaju uspesnog odgovora vrati ceo json
   public static String getUserJsonFormat(String sUsername, String sAuthUser, String sAuthPass) {
     log.trace("getUserJsonFormat(" + sUsername + ")");
     Assert.assertTrue(checkIfUserExists(sUsername, sAuthUser, sAuthPass), "User " + sUsername + " doesn't exist!");
@@ -92,7 +92,7 @@ public class RestApiUtils extends LoggerUtils{
     return sResponseBody;
   }
 
-  //overload metode gore da je izvrsi sa adminom
+  // Overload metode gore da je izvrsi sa adminom
   public static String getUserJsonFormat(String sUsername) {
     return getUserJsonFormat(sUsername, sAdminUser, sAdminPass);
   }
@@ -110,14 +110,14 @@ public class RestApiUtils extends LoggerUtils{
     return gson.fromJson(json, User.class);
   }
 
-  //overload metode gore, izvrsavamo poziv sa admin userom
+  // Overload metode gore, izvrsavamo poziv sa admin userom
   public static User getUser(String sUsername) {
     return getUser (sUsername, sAdminUser, sAdminPass);
   }
 
   //---------------------------------------------------------------------------------
 
-  //Metode za API poziv: DELETE /api/users/deleteByUsername/{username} - Delete user with specified username - PRIVATE
+  // Metode za API poziv: DELETE /api/users/deleteByUsername/{username} - Delete user with specified username - PRIVATE
   private static Response deleteUserApiCall(String sUsername, String sAuthUser, String sAuthPass) {
     String sApiCall = BASE_URL + ApiCalls.createDeleteUserApiCall(sUsername);
     Response response = null;
